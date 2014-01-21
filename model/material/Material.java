@@ -51,9 +51,9 @@ public abstract class Material {
 			throw new IllegalArgumentException("The brandName specified is null or empty");
 		}
 		
-		this.id = id;
-		this.name = name;
-		this.brandName = brandName;
+		this.setId(id);
+		this.setName(name);
+		this.setBrandName(brandName);
 	}
 	
 	/**
@@ -63,9 +63,9 @@ public abstract class Material {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		result.put("id", this.id);
-		result.put("name", this.name);
-		result.put("brandName", this.brandName);
+		result.put("id", this.getId());
+		result.put("name", this.getName());
+		result.put("brandName", this.getBrandName());
 		
 		return result;
 	}
@@ -94,9 +94,9 @@ public abstract class Material {
 			throw new IllegalArgumentException("The brandName restored is null or empty");
 		}
 
-		this.id = id;
-		this.name = name;
-		this.brandName = brandName;
+		this.setId(id);
+		this.setName(name);
+		this.setBrandName(brandName);
 	}
 
 	public void setState(State state) {
@@ -105,5 +105,47 @@ public abstract class Material {
 
 	public State getState() {
 		return this.state;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the brandName
+	 */
+	public String getBrandName() {
+		return brandName;
+	}
+
+	/**
+	 * @param brandName the brandName to set
+	 */
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
 	}
 }

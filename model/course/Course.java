@@ -10,7 +10,7 @@ public class Course {
 	private String name;
 	private List<Integer> productsAllowed;
 	private int id;
-
+ 
 	public Map<String, Object> getDescription() {
 		throw new UnsupportedOperationException();
 	}

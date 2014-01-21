@@ -11,7 +11,7 @@ public class LoanManager {
 	 * It contains past loans unreturned, current loans or future loans.
 	 */
 	private ArrayList<Loan> unreturnedLoans;
-	/**
+	/** 
 	 * This list contains all old loans. An old loan is a loan wich is returned.
 	 */
 	private ArrayList<Loan> oldLoans;

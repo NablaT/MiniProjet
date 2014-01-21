@@ -16,7 +16,7 @@ public class CourseHandler {
 
 	public List<Map<String, Object>> getCoursesDescription() {
 		throw new UnsupportedOperationException();
-	}
+	} 
 
 	public Map<String, Object> getCourseDescription(int courseId) {
 		throw new UnsupportedOperationException();

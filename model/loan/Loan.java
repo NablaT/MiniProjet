@@ -21,6 +21,7 @@ public class Loan {
 	private List<State> startState;
 	private List<State> endState;
 
+	//  
 	public List<Class<? extends Material>> getTypesOfMaterial() {
 		throw new UnsupportedOperationException();
 	}

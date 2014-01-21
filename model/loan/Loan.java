@@ -133,8 +133,8 @@ public class Loan {
 	public boolean isOverdue(Calendar calendar_currentDate) {
 		return (this.getNumberOfDayOfDelay(calendar_currentDate)<0);
 	}
-	
+	/*
 	public boolean equals(Loan loan){
 		return (this.material.equals(loan.getM))
-	}
+	}*/
 }

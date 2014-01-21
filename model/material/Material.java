@@ -127,7 +127,6 @@ public abstract class Material {
 	public String getName() {
 		return name;
 	}
-
 	/**
 	 * @param name the name to set
 	 */
@@ -147,5 +146,14 @@ public abstract class Material {
 	 */
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
+	}
+	
+	/**
+	 * This method compare two loans and return true.
+	 * @param material 
+	 */
+	
+	public boolean equals(Material material){
+		return (this.id.equals(material.getId())); 
 	}
 }

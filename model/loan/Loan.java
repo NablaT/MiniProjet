@@ -22,6 +22,72 @@ public class Loan {
 	private List<State> startState;
 	private List<State> endState;
 
+	
+	public Loan(List<Class<? extends Material>> material, Calendar startDate, Calendar endDate, User user, List<State> startState){
+		this.material=material;
+		this.startDate=startDate;
+		this.endDate=endDate; 
+		this.user=user; 
+		this.gaveBack= false; 
+		this.startState=startState;
+		this.endState= new ArrayList<State>(); 
+	}
+	
+	
+	public List<Class<? extends Material>> getMaterial(){
+		return this.material; 
+	}
+
+	public Calendar getStartDate(){
+		return this.startDate; 
+	}
+	
+	public Calendar getEndStart(){
+		return this.endDate; 
+	}
+	
+	public User getUser(){
+		return this.user; 
+	}
+	
+	public boolean getGaveBack(){
+		return this.gaveBack; 
+	}
+	
+	public void setGaveBack(boolean gaveBack){
+		this.gaveBack=gaveBack;
+	}
+	
+	public List<State> getStartState(){
+		return this.startState; 
+	}
+	
+	public List<State> getEndState(){
+		return this.endState; 
+	}
+	
+	public void setEndState(List<State> listState){
+		this.endState=listState; 
+	}
+	
+	public void setStartDate(List<State> listState){
+		this.startState=listState; 
+	}
+	
+	public void setUser(User user){
+		this.user=user; 
+	}
+	public void setEndDate(Calendar date){
+		this.endDate=date; 
+	}
+	
+	public void setStartDate(Calendar date){
+		this.startDate=date; 
+	}
+	
+	public void setMaterial(List<Class<? extends Material>> list){
+		this.material=list; 
+	}
 	/**
 	 * Methode getTypesOfMaterial. Cette methode retourne la liste des materials du même type de la classe specifiée
 	 * en parametre. 
@@ -66,5 +132,9 @@ public class Loan {
 	 */
 	public boolean isOverdue(Calendar calendar_currentDate) {
 		return (this.getNumberOfDayOfDelay(calendar_currentDate)<0);
+	}
+	
+	public boolean equals(Loan loan){
+		return (this.material.equals(loan.getM))
 	}
 }

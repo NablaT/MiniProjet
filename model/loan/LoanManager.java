@@ -15,13 +15,14 @@ public class LoanManager {
 	 * This list contains all old loans. An old loan is a loan wich is returned.
 	 */
 	private ArrayList<Loan> oldLoans;
-
+	
+	
 	public void LoanManagment(Object list) {
-		throw new UnsupportedOperationException();
+		
 	}
 
 	public void turnBackMaterial(Object material) {
-		throw new UnsupportedOperationException();
+		
 	}
 
 	public void setUnreturnedLoans(ArrayList<Loan> unreturnedLoans) {

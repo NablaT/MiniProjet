@@ -24,7 +24,7 @@ public class StockManager {
 	public void addProduct(Material material) {
 		
 		if(this.isPresent(material.getId())) {
-			throw new IllegalArgumentException("The id specified is already used");
+			throw new IllegalArgumentException("The id specified is already used (" + material.getId() + ")");
 		}
 		
 		List<Material> listMaterial = new ArrayList<Material>();
@@ -36,17 +36,19 @@ public class StockManager {
 		listMaterial.add(material);
 
 		this.stockDescription.put(material.getClass(), listMaterial);
-		Material.incrementIdCounter();
 	}
 
-	public void removeProduct(Material material) {
-
+	public void removeProduct(Material material) throws Exception {
+		if(!this.stockDescription.get(material.getClass()).contains(material)) {
+			throw new Exception("The specified material can't be found");
+		}
+		
+		this.stockDescription.get(material.getClass()).remove(material);
 	}
 
 	public int getNumberOf(Class<? extends Material> classe) {
 		if(!this.stockDescription.containsKey(classe)) {
-			throw new IllegalArgumentException("The material type specified" +
-										" is absent from the stock description");
+			return 0;
 		}
 		
 		return this.stockDescription.get(classe).size();
@@ -105,8 +107,8 @@ public class StockManager {
 		
 		for(Class<?extends Material> key : stockDescription.keySet()) {
 			for(Map<String, Object> currentProductDescription : stockDescription.get(key)) {
-
-				Constructor constructeur = null;
+				System.out.println("RESTORE FROM STOCKFILE");
+				Constructor<?> constructeur = null;
 				try {
 					constructeur = key.getConstructor();
 				} catch (NoSuchMethodException | SecurityException e) {
@@ -122,7 +124,7 @@ public class StockManager {
 				}
 				
 				instance.restore(currentProductDescription);
-				
+	
 				this.addProduct(instance);
 			}
 		}
@@ -148,5 +150,10 @@ public class StockManager {
 		}
 
 		return result;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		return this.stockDescription.equals(((StockManager)o).stockDescription);
 	}
 }

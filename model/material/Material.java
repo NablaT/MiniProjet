@@ -37,7 +37,7 @@ public abstract class Material{
 	// Map describing copy and day limits for each user
 	private Map<String, Map<Class<? extends User>, Integer>> limits = new HashMap<String, Map<Class<? extends User>, Integer>>();
 
-	public Material() {}
+	public Material() { idCounter++; }
 	
 	public Material(String name, String brandName) {
 		this.setName(name);
@@ -47,7 +47,7 @@ public abstract class Material{
 	}
 	
 	public Material(Map<String, Object> description) {
-		System.out.println("Material - c - map");
+		idCounter++;
 		this.restore(description);
 	}
 
@@ -155,6 +155,7 @@ public abstract class Material{
 	}
 
 	private String generateId(String name, String brandName) {
+		
 		String result = "";
 		int random = new Random().nextInt(9);
 
@@ -175,8 +176,13 @@ public abstract class Material{
 		String id = (String) description.get("id");
 		String name = (String) description.get("name");
 		String brandName = (String) description.get("brandName");
-
-		this.setId(id); 
+	
+		if(id == null) {
+			this.setId(this.generateId(name, brandName));
+		}
+		else {
+			this.setId(id); 
+		}
 		this.setName(name);
 		this.setBrandName(brandName);
 	}

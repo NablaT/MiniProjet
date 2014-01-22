@@ -33,4 +33,13 @@ public class User {
 	public List<Integer> getListCourse() {
 		return this.listCourse;
 	}
+	
+	/**
+	 * Method equals. This method return true if two users have the same id. 
+	 * @param u
+	 * @return
+	 */
+	public boolean equals(User u){
+		return (this.id.equals(u.getId())); 
+	}
 }

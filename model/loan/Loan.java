@@ -19,7 +19,7 @@ public class Loan {
 	private User user;
 	private boolean gaveBack;
 	private List<State> startState;
-	private List<State> endState;
+	private List<State> endState; 
 
 	public Loan(List<Class<? extends Material>> material, Calendar startDate,
 			Calendar endDate, User user, List<State> startState) {
@@ -155,7 +155,7 @@ public class Loan {
 				&& (this.sameDate(this.endDate, loan.getEndDate()))
 				&& this.user.equals(loan.getUser())
 				&& (this.gaveBack == loan.getGaveBack())
-				&& sameState(this.startState, loan.getStartState()) && sameState(
+				&& sameList(this.startState, loan.getStartState()) && sameList(
 					this.endState, loan.getEndState()));
 	}
 
@@ -165,7 +165,8 @@ public class Loan {
 	 * @param l2
 	 * @return
 	 */
-	private boolean sameState(List<State> l1, List<State> l2) {
+	
+	public static boolean sameList(List l1, List l2) {
 		if (l1.size() != l2.size()) {
 			return false;
 		}

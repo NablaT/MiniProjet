@@ -45,13 +45,6 @@ public abstract class Material{
 		this.setId(this.generateId(name, brandName));
 		idCounter++;
 	}
-
-	public Material(String id, String name, String brandName) {
-		this.setId(id + idCounter);
-		this.setName(name);
-		this.setBrandName(brandName);
-		idCounter++;
-	}
 	
 	public Material(Map<String, Object> description) {
 		System.out.println("Material - c - map");
@@ -91,6 +84,10 @@ public abstract class Material{
 		return this.limits.get(KEY_LIMIT_COPY).get(targetClass);
 	}
 
+	public static final int getIdCounter() {
+		return Material.idCounter;
+	}
+	
 	/**
 	 * @param id
 	 *            the id to set
@@ -133,7 +130,16 @@ public abstract class Material{
 	public final void setState(State state) {
 		this.state = state;
 	}
+	
+	public static final void incrementIdCounter() {
+		Material.idCounter++;
+	}
 
+	public static final void resetIdCounter() {
+		Material.idCounter = 1;
+	}
+
+	
 	/**
 	 * Return a neutral description of the current material
 	 */
@@ -164,7 +170,7 @@ public abstract class Material{
 	 * Restore the current from a previous neutral description
 	 */
 	public void restore(Map<String, Object> description) {
-		System.out.println("Material - restore");
+		
 		// Get specifics attributes
 		String id = (String) description.get("id");
 		String name = (String) description.get("name");

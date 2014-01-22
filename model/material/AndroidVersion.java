@@ -1,6 +1,6 @@
 package model.material;
 
-public enum AndroidVersion {
+enum AndroidVersion {
 
 	PETIT_FOUR("PETIT_FOUR"), CUPCAKE("CUPCAKE"), DONUT("DONUT"), 
 	ECLAIR("ECLAIR"), FROYO("FROYO"), GINGERBREAD("GINGERBREAD"),

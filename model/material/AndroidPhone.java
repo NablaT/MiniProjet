@@ -8,9 +8,9 @@ import java.util.Map;
 class AndroidPhone extends Phone {
 
 	private AndroidVersion version;
-	
-	public AndroidPhone(String id, String name, String brandName) {
-		super(id, name, brandName);
+
+	public AndroidPhone() {
+		super();
 	}
 	
 	public AndroidPhone(String name, String brandName) {
@@ -27,8 +27,6 @@ class AndroidPhone extends Phone {
 	
 	public void restore(Map<String, Object> description) {
 		super.restore(description);
-		
-		System.out.println("Restore AP");
 		
 		this.version =  (AndroidVersion)description.get("version");		
 	}

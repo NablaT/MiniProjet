@@ -2,8 +2,7 @@ package model.material;
 
 class IOSTablet extends Tablet {
 
-	public IOSTablet(String id, String name, String brandName) {
-		super(id, name, brandName);
-		// TODO Auto-generated constructor stub
+	public IOSTablet(String name, String brandName) {
+		super(name, brandName);
 	}
 }

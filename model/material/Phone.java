@@ -8,10 +8,10 @@ abstract class Phone extends ComputerDevice {
 	private int screenSize;
 	private ScreenType screenType;
 
-	public Phone(String id, String name, String brandName) {
-		super(id, name, brandName);
+	public Phone() {
+		super();
 	}
-
+	
 	public Phone(String name, String brandName) {
 		super(name, brandName);
 	}

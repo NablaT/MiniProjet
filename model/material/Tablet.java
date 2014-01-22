@@ -1,6 +1,6 @@
 package model.material;
 
-public abstract class Tablet extends ComputerDevice {
+abstract class Tablet extends ComputerDevice {
 
 	public Tablet(String id, String name, String brandName) {
 		super(id, name, brandName);

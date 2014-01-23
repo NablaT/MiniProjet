@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import model.State;
-import model.user.User;
+import model.user.IUser;
 
 /**
  * This superclass represents any material in the app. It is abstract because
@@ -35,7 +35,7 @@ public abstract class Material{
 	private static final String KEY_LIMIT_DAY = "maxDay";
 
 	// Map describing copy and day limits for each user
-	private Map<String, Map<Class<? extends User>, Integer>> limits = new HashMap<String, Map<Class<? extends User>, Integer>>();
+	private Map<String, Map<Class<IUser>, Integer>> limits = new HashMap<String, Map<Class<IUser>, Integer>>();
 
 	public Material() { idCounter++; }
 	
@@ -76,11 +76,11 @@ public abstract class Material{
 		return this.state;
 	}
 
-	public final int getDayLimit(Class<? extends User> targetClass) {
+	public final int getDayLimit(Class<IUser> targetClass) {
 		return this.limits.get(KEY_LIMIT_DAY).get(targetClass);
 	}
 
-	public final int getCopyLimit(Class<? extends User> targetClass) {
+	public final int getCopyLimit(Class<IUser> targetClass) {
 		return this.limits.get(KEY_LIMIT_COPY).get(targetClass);
 	}
 

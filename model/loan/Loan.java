@@ -6,7 +6,7 @@ import java.util.List;
 
 import model.State;
 import model.material.Material;
-import model.user.User;
+import model.user.IUser;
 
 /**
  * A loan contains the list of material concerned, who made it, start date and
@@ -16,13 +16,13 @@ public class Loan {
 	private List<Class<? extends Material>> material;
 	private Calendar startDate;
 	private Calendar endDate;
-	private User user;
+	private IUser user;
 	private boolean gaveBack;
 	private List<State> startState;
 	private List<State> endState; 
 
 	public Loan(List<Class<? extends Material>> material, Calendar startDate,
-			Calendar endDate, User user, List<State> startState) {
+			Calendar endDate, IUser user, List<State> startState) {
 		this.material = material;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -44,7 +44,7 @@ public class Loan {
 		return this.endDate;
 	}
 
-	public User getUser() {
+	public IUser getUser() {
 		return this.user;
 	}
 
@@ -72,7 +72,7 @@ public class Loan {
 		this.startState = listState;
 	}
 
-	public void setUser(User user) {
+	public void setUser(IUser user) {
 		this.user = user;
 	}
 

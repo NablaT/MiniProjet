@@ -24,20 +24,21 @@ public class Repair {
 	 *            date of the end of the reparation
 	 */
 	public Repair(ArrayList<Material> listMaterial, GregorianCalendar end) {
-		material = listMaterial;
+	        material = listMaterial;
 		endDate = end;
 	}
 
 	/**
 	 * 
 	 * @param date
-	 * @return true if material is repaired at date 
+	 * @return true if material is repaired at date or anterior at date
 	 * @return false if material is not repaired
 	 */
 	public boolean isRepaired(GregorianCalendar date) {
-		if (date.get(Calendar.DAY_OF_YEAR) == endDate.get(Calendar.DAY_OF_YEAR)
-				&& date.get(Calendar.YEAR) == endDate.get(Calendar.YEAR))
+		if (endDate.get(Calendar.DAY_OF_YEAR) <= date.get(Calendar.DAY_OF_YEAR)
+				&& endDate.get(Calendar.YEAR) == date.get(Calendar.YEAR))
 			return true;
+		else if(endDate.get(Calendar.YEAR)<=date.get(Calendar.YEAR)) return true;
 		return false;
 	}
 
@@ -47,6 +48,7 @@ public class Repair {
 	public ArrayList<Material> getMaterial() {
 		return material;
 	}
+	
 	
 
 }

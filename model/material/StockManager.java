@@ -37,7 +37,15 @@ public class StockManager {
 
 		this.stockDescription.put(material.getClass(), listMaterial);
 	}
+	
+	public void addProduct(Class<?extends Material> classe, Map<String, Object> materialDescription) {
+		this.addProduct(this.restoreProduct(classe, materialDescription));
+	}
 
+	public void addProduct(Map<String, Object> materialDescription) {
+		this.addProduct((Class<?extends Material>)materialDescription.get("class"), materialDescription);
+	}
+	
 	public void removeProduct(Material material) throws Exception {
 		if(!this.stockDescription.get(material.getClass()).contains(material)) {
 			throw new Exception("The specified material can't be found");
@@ -107,29 +115,31 @@ public class StockManager {
 		
 		for(Class<?extends Material> key : stockDescription.keySet()) {
 			for(Map<String, Object> currentProductDescription : stockDescription.get(key)) {
-				System.out.println("RESTORE FROM STOCKFILE");
-				Constructor<?> constructeur = null;
-				try {
-					constructeur = key.getConstructor();
-				} catch (NoSuchMethodException | SecurityException e) {
-					e.printStackTrace();
-				}
-				Material instance = null;
-
-				try {
-					instance = (Material)constructeur.newInstance(new Object[] {});
-				} catch (InstantiationException | IllegalAccessException
-						| IllegalArgumentException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
-				
-				instance.restore(currentProductDescription);
-	
-				this.addProduct(instance);
+				this.addProduct(restoreProduct(key, currentProductDescription));
 			}
 		}
 	}
 
+	public Material restoreProduct(Class<?extends Material> classe, Map<String, Object> description) {
+		Constructor<?> constructeur = null;
+		try {
+			constructeur = classe.getConstructor();
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
+		Material instance = null;
+
+		try {
+			instance = (Material)constructeur.newInstance(new Object[] {});
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+		instance.restore(description);
+		return instance;
+	}
+	
 	public List<Material> stockToList() {
 		List<Material> result = new ArrayList<Material>();
 		

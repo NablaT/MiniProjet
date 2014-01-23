@@ -166,7 +166,7 @@ public abstract class Material{
 
 		return result;
 	}
-
+	
 	/**
 	 * Restore the current from a previous neutral description
 	 */

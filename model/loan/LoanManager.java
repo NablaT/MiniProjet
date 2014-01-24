@@ -93,7 +93,7 @@ public class LoanManager {
 				.getUser());
 		HashMap<String, Integer> newMaterial = getAllMaterialsHeWants(loan);
 		for (int i = 0; i < loan.getMaterial().size(); i++) {
-			if (loan.getMaterial().get(i).getCopyLimitation(loan.getUser()) < (oldMaterial
+			if (loan.getMaterial().get(i).getCopyLimitation(loan.getUser().getClass()) < (oldMaterial
 					.get(loan.getMaterial().get(i)))
 					+ newMaterial.get(loan.getMaterial().get(i))) {
 				return false;

@@ -15,4 +15,10 @@ public abstract class Statistics {
 		return result;
 	}
 	
+	
+	public static User getMostImportantBorrower(LoanManager lm) {
+		LinkedHashMap<User, Integer> completeList = orderUsersByNumberOfLoan(lm);
+		return (User)completeList.keySet().toArray()[0];
+	}
+	
 }

@@ -3,12 +3,12 @@ package model;
 import java.util.LinkedHashMap;
 
 import model.loan.LoanManager;
-import model.user.User;
+import model.user.IUser;
 
 public abstract class Statistics {
 
-	public static LinkedHashMap<User, Integer> orderUsersByNumberOfLoan(LoanManager lm) {
-		LinkedHashMap<User, Integer> result = new LinkedHashMap<User, Integer>();
+	public static LinkedHashMap<IUser, Integer> orderUsersByNumberOfLoan(LoanManager lm) {
+		LinkedHashMap<IUser, Integer> result = new LinkedHashMap<IUser, Integer>();
 		
 		
 		
@@ -16,9 +16,9 @@ public abstract class Statistics {
 	}
 	
 	
-	public static User getMostImportantBorrower(LoanManager lm) {
-		LinkedHashMap<User, Integer> completeList = orderUsersByNumberOfLoan(lm);
-		return (User)completeList.keySet().toArray()[0];
+	public static IUser getMostImportantBorrower(LoanManager lm) {
+		LinkedHashMap<IUser, Integer> completeList = orderUsersByNumberOfLoan(lm);
+		return (IUser)completeList.keySet().toArray()[0];
 	}
 	
 }

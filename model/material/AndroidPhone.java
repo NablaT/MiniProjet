@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.State;
-import model.user.User;
+import model.user.IUser;
 
 class AndroidPhone extends Phone {
 
 	// Version of the current android device
-	private AndroidVersion version;
+	private AndroidPhoneVersion version;
 
 	/**
 	 * First default constructor<br>
@@ -36,14 +36,14 @@ class AndroidPhone extends Phone {
 	 * @param screenType
 	 *            screen type of the current android phone {@link ScreenType}
 	 * @param version
-	 *            version of the current android phone {@link AndroidVersion}
+	 *            version of the current android phone {@link AndroidPhoneVersion}
 	 * @param state
 	 *            state of the current android phone {@link State}
 	 * @param limitsDescription
 	 *            map describing limitations for the current android phone for a
 	 *            specific user
 	 * 
-	 * @see AndroidVersion
+	 * @see AndroidPhoneVersion
 	 * @see State
 	 * @see ScreenType
 	 * @see Phone#Phone(String, String, int, ScreenType, State, Map)
@@ -51,8 +51,8 @@ class AndroidPhone extends Phone {
 	 * @since v.0.0.0
 	 */
 	public AndroidPhone(String name, String brandName, int screenSize,
-			ScreenType screenType, AndroidVersion version, State state,
-			Map<String, Map<Class<? extends User>, Integer>> limitsDescription) {
+			ScreenType screenType, AndroidPhoneVersion version, State state,
+			Map<String, Map<Class<? extends IUser>, Integer>> limitsDescription) {
 		super(name, brandName, screenSize, screenType, state, limitsDescription);
 		this.setVersion(version);
 	}
@@ -68,7 +68,7 @@ class AndroidPhone extends Phone {
 	 * 
 	 * @see Phone#Phone(Map)
 	 * @see AndroidPhone#AndroidPhone(String, String, int, ScreenType,
-	 *      AndroidVersion, State, Map)
+	 *      AndroidPhoneVersion, State, Map)
 	 * 
 	 * @since v.0.0.0
 	 */
@@ -77,16 +77,16 @@ class AndroidPhone extends Phone {
 	}
 
 	/**
-	 * Getter wich allow access to the {@link AndroidVersion} of the current
+	 * Getter wich allow access to the {@link AndroidPhoneVersion} of the current
 	 * device
 	 * 
 	 * @return android version of the current device
 	 * 
-	 * @see AndroidVersion
+	 * @see AndroidPhoneVersion
 	 * 
 	 * @since v.0.0.0
 	 */
-	public AndroidVersion getVersion() {
+	public AndroidPhoneVersion getVersion() {
 		return this.version;
 	}
 
@@ -96,11 +96,11 @@ class AndroidPhone extends Phone {
 	 * @param version
 	 *            the new version of the current android device
 	 * 
-	 * @see AndroidVersion
+	 * @see AndroidPhoneVersion
 	 * 
 	 * @since v.0.0.0
 	 */
-	public void setVersion(AndroidVersion version) {
+	public void setVersion(AndroidPhoneVersion version) {
 		this.version = version;
 	}
 
@@ -114,7 +114,7 @@ class AndroidPhone extends Phone {
 	 */
 	public void restore(Map<String, Object> description) {
 		super.restore(description);
-		this.version = (AndroidVersion) description.get("version");
+		this.version = (AndroidPhoneVersion) description.get("version");
 	}
 
 	/**
@@ -139,7 +139,7 @@ class AndroidPhone extends Phone {
 	/**
 	 * Equals method<br>
 	 * An androidPhone is equal another if it has the same
-	 * {@link AndroidVersion}<br>
+	 * {@link AndroidPhoneVersion}<br>
 	 * It uses the super overridden method {@link Phone#equals(Object)}
 	 * 
 	 * @param o
@@ -157,6 +157,6 @@ class AndroidPhone extends Phone {
 
 	@Override
 	public String toString() {
-		return super.toString() + "- OS : android - Version : " + this.version;
+		return "\t[#" + id + "] [" + this.getClass().getSimpleName() + "]\t" +  " " + super.toString() + " - " + this.version;
 	}
 }

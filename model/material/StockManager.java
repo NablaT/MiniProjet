@@ -16,12 +16,14 @@ import model.util.ConfigXML;
 
 public class StockManager implements Manager {
 
-	private static final String KEY_STOCK_FILE = "stockDescription.xml";
+	private static final String KEY_STOCK_FILE = "stockDescription";
 	private static final String KEY_STOCK_VERSION = "0.0.0";
 
 	private Map<Class<?extends Material>,List<Material>> stockDescription 
 				= new HashMap<Class<?extends Material>, List<Material>>();
 
+	public StockManager() { }
+	
 	public void addProduct(Material material) {
 		
 		if(this.isPresent(material.getId())) {

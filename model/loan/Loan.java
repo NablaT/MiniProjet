@@ -1,35 +1,41 @@
 package model.loan;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.State;
 import model.course.Course;
-import model.material.Material;
 import model.user.IUser;
-import model.user.User;
+import model.user.UserManager;
 
 /**
  * A loan contains the list of material concerned, who made it, start date and
  * end date. It also contains start states and end states for all material.
  */
 public class Loan {
-	private List<? extends Material> material;
-	private Course course; 
+	private List<String> material;
+	private Course course;
 	private Calendar startDate;
 	private Calendar endDate;
 	private Calendar askDate;
-	private User user;
+	private IUser user;
 	private boolean gaveBack;
 	private List<State> startState;
 	private List<State> endState;
 
-	public Loan(List<? extends Material> material, Course course, Calendar startDate,
-			Calendar endDate, Calendar askDate, User user,
+	public Loan() {
+	}
+
+	public Loan(List<String> material, Course course, Calendar startDate,
+			Calendar endDate, Calendar askDate, IUser user,
 			List<State> startState) {
 		this.material = material;
-		this.course=course;
+		this.course = course;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.askDate = askDate;
@@ -39,13 +45,18 @@ public class Loan {
 		this.endState = new ArrayList<State>();
 	}
 
-	public List<? extends Material> getMaterial() {
+	public Loan(Map<String, Object> description) {
+		this.restore(description);
+	}
+
+	public List<String> getListOfMaterials() {
 		return this.material;
 	}
 
-	public Course getCourse(){
+	public Course getCourse() {
 		return this.course;
 	}
+
 	public Calendar getStartDate() {
 		return this.startDate;
 	}
@@ -58,7 +69,7 @@ public class Loan {
 		return this.askDate;
 	}
 
-	public User getUser() {
+	public IUser getUser() {
 		return this.user;
 	}
 
@@ -66,10 +77,10 @@ public class Loan {
 		return this.gaveBack;
 	}
 
-	public void setCourse(Course c){
-		this.course=c; 
+	public void setCourse(Course c) {
+		this.course = c;
 	}
-	
+
 	public void setGaveBack(boolean gaveBack) {
 		this.gaveBack = gaveBack;
 	}
@@ -90,7 +101,7 @@ public class Loan {
 		this.startState = listState;
 	}
 
-	public void setUser(User user) {
+	public void setUser(IUser user) {
 		this.user = user;
 	}
 
@@ -106,7 +117,7 @@ public class Loan {
 		this.startDate = date;
 	}
 
-	public void setMaterial(List<? extends Material> list) {
+	public void setMaterial(List<String> list) {
 		this.material = list;
 	}
 
@@ -117,28 +128,27 @@ public class Loan {
 	 * @return
 	 */
 	/*
-	public List<? extends Material> getTypesOfMaterial(Class<? extends Material> classe) {
-		ArrayList<Class<? extends Material>> list = new ArrayList<Class<? extends Material>>();
-		for (int i = 0; i < this.material.size(); i++) {
-			if (this.material.get(i).getClass().getName()
-					.equals(classe.getClass().getName())) {
-				list.add(this.material.get(i));
-			}
-		}
-		return list;
-	}
-*/
+	 * public List<? extends Material> getTypesOfMaterial(Class<? extends
+	 * Material> classe) { ArrayList<Class<? extends Material>> list = new
+	 * ArrayList<Class<? extends Material>>(); for (int i = 0; i <
+	 * this.material.size(); i++) { if
+	 * (this.material.get(i).getClass().getName()
+	 * .equals(classe.getClass().getName())) { list.add(this.material.get(i)); }
+	 * } return list; }
+	 */
 	/**
 	 * Methode getNumberOf. Cette methode retourne le nombre de material
 	 * specifique se trouvant dans la liste de material.
 	 * 
 	 * @param classe
 	 * @return
-	 *//*
-	public int getNumberOf(Class<? extends Material> classe) {
-		return (this.getTypesOfMaterial(classe).size());
-
-	}*/
+	 */
+	/*
+	 * public int getNumberOf(Class<? extends Material> classe) { return
+	 * (this.getTypesOfMaterial(classe).size());
+	 * 
+	 * }
+	 */
 
 	/**
 	 * Methode getNumberOfDayOfDelay. Cette methode retourne le nombre de jour
@@ -172,35 +182,14 @@ public class Loan {
 	 * @return
 	 */
 	public boolean equals(Loan loan) {
-		return (this.material.equals(loan.getMaterial())
+		return (this.material.equals(loan.getListOfMaterials())
 				&& (this.sameDate(startDate, loan.getStartDate()))
 				&& (this.sameDate(this.endDate, loan.getEndDate()))
 				&& (this.sameDate(this.askDate, loan.getAskDate()))
 				&& this.user.equals(loan.getUser())
 				&& (this.gaveBack == loan.getGaveBack())
-				&& sameList(this.startState, loan.getStartState()) && sameList(
-					this.endState, loan.getEndState()));
-	}
-
-	/**
-	 * This method compare two lists and it returns true if they are identical.
-	 * 
-	 * @param l1
-	 * @param l2
-	 * @return
-	 */
-
-	public static boolean sameList(List l1, List l2) {
-		if (l1.size() != l2.size()) {
-			return false;
-		}
-		for (int i = 0; i < l1.size(); i++) {
-			if (!(l1.get(i).equals(l2.get(i)))) {
-				return false;
-			}
-		}
-		return true;
-
+				&& this.startState.equals(loan.getStartState())
+				&& this.endState.equals(loan.getEndState()));
 	}
 
 	/**
@@ -214,5 +203,80 @@ public class Loan {
 	private boolean sameDate(Calendar c1, Calendar c2) {
 		return (c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR) && c1
 				.get(Calendar.YEAR) == c2.get(Calendar.YEAR));
+	}
+
+	public Map<String, Object> getDescription() {
+		Map<String, Object> description = new HashMap<String, Object>();
+		
+		description.put("material", material);
+		description.put("course", course.getDescription());
+		description.put("startDate", startDate);
+		description.put("endDate", endDate);
+		description.put("askDate", askDate);
+		
+		Map<String, Object> userDescription = new HashMap<String, Object>();
+		userDescription = user.getDescription();
+		userDescription.put("class", user.getClass());
+		
+		description.put("user", userDescription);
+		description.put("gaveBack", gaveBack);
+		description.put("startState", startState);
+		description.put("endState", endState);
+
+		return description;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void restore(Map<String, Object> description) {
+
+		Calendar startDate = (Calendar) description.get("startDate");
+		Calendar endDate = (Calendar) description.get("endDate");
+		Calendar askDate = (Calendar) description.get("askDate");
+		List<State> startState = (List<State>) description.get("startState");
+		List<State> endState = (List<State>) description.get("endState");
+		Boolean gaveBack = (Boolean) description.get("gaveBack");
+
+		Map<String, Object> userDescription = (Map<String, Object>) description
+				.get("user");
+		
+		IUser user = new UserManager().restoreUser(
+				(Class<? extends IUser>) userDescription.get("class"), userDescription);
+		
+		List<String> material = (List<String>) description.get("material");
+		Course course = new Course((Map<String, Object>)description.get("course"));
+		
+		this.setStartDate(startDate);
+		this.setEndDate(endDate);
+		this.setAskDate(askDate);
+		this.setStartDate(startState);
+		this.setEndState(endState);
+		this.setGaveBack(gaveBack);
+		this.setUser(user);
+		this.setMaterial(material);
+		this.setCourse(course);
+	}
+
+	@Override
+	public String toString() {
+		String result = "";
+			
+		DateFormat ndf = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
+        String startDateStr = ndf.format(startDate.getTime());
+        String endDateStr = ndf.format(endDate.getTime());
+			
+		
+		result += "[" + user.getID() + "]\t" + "Course #"+ course.getID() + "\t" + startDateStr + " - " + endDateStr ;
+		
+		result+= (gaveBack)? " - gaveBack" : " - unreturned";
+	
+		result += "\n";
+
+		
+		for(int i = 0 ; i < this.material.size(); i ++) {
+			result += "\t[" + material.get(i) + "]\t -\t";
+			result += startState.get(i) + "\n";
+		}
+		
+		return result;
 	}
 }

@@ -5,17 +5,17 @@ import java.util.Map;
 import java.util.Random;
 
 import model.State;
-import model.user.User;
+import model.user.IUser;
 
 /**
  * This superclass represents any material in the app. It is abstract because
  * you can't create an instance of a Material.
  */
 
-public abstract class Material{
+public abstract class Material {
 
 	// Unique ID of the current material
-	private String id;
+	protected String id;
 
 	// Name of the material. Most of the time
 	// it represents the name version (ex : 5s, 3gs)
@@ -37,14 +37,40 @@ public abstract class Material{
 	public static final String KEY_LIMIT_DURATION = "maxDuration";
 
 	// Map describing copy and day limits for each user
-	private Map<String, Map<Class<? extends User>, Integer>> limits = new HashMap<String, Map<Class<? extends User>, Integer>>();
+	private Map<String, Map<Class<? extends IUser>, Integer>> limits = new HashMap<String, Map<Class<? extends IUser>, Integer>>();
 
+	/**
+	 * Default constructor<br>
+	 * It will build a Material wich has not property, but it will increment
+	 * idCounter attribute.
+	 */
 	public Material() {
 		idCounter++;
 	}
 
+	/**
+	 * First constructor<br>
+	 * This constructor will build a material with specified values.
+	 * 
+	 * @param name
+	 *            The name of the material
+	 * @param brandName
+	 *            The name of the company wich release the current material
+	 * @param state
+	 *            The state of the current material {@linkplain State}
+	 * @param limitsDescription
+	 *            This map will described each limitations for each users
+	 * 
+	 * @see Material#setName(String)
+	 * @see Material#setBrandName(String)
+	 * @see Material#setId(String)
+	 * @see Material#setLimits(Map)
+	 * @see Material#setState(State)
+	 * 
+	 * @since v.0.0.0
+	 */
 	public Material(String name, String brandName, State state,
-			Map<String, Map<Class<? extends User>, Integer>> limitsDescription) {
+			Map<String, Map<Class<? extends IUser>, Integer>> limitsDescription) {
 		this.setName(name);
 		this.setBrandName(brandName);
 		this.setId(this.generateId(name, brandName));
@@ -53,6 +79,15 @@ public abstract class Material{
 		idCounter++;
 	}
 
+	/**
+	 * Second constructor<br>
+	 * It will build a material from the given description.
+	 * 
+	 * @param description
+	 *            Map describing the current device
+	 * 
+	 * @see Material#Material(String, String, State, Map)
+	 */
 	public Material(Map<String, Object> description) {
 		idCounter++;
 		this.restore(description);
@@ -83,15 +118,15 @@ public abstract class Material{
 		return this.state;
 	}
 
-	public final int getDelayLimitation(Class<?extends User> targetClass) {
+	public final int getDelayLimitation(Class<? extends IUser> targetClass) {
 		return this.limits.get(KEY_LIMIT_DELAY).get(targetClass);
 	}
 
-	public final int getDurationLimitation(Class<?extends User> targetClass) {
+	public final int getDurationLimitation(Class<? extends IUser> targetClass) {
 		return this.limits.get(KEY_LIMIT_DURATION).get(targetClass);
 	}
 
-	public final int getCopyLimitation(Class<?extends User> targetClass) {
+	public final int getCopyLimitation(Class<? extends IUser> targetClass) {
 		return this.limits.get(KEY_LIMIT_COPY).get(targetClass);
 	}
 
@@ -112,9 +147,10 @@ public abstract class Material{
 		this.id = id;
 	}
 
-	public String getProductDescription(){
-		return this.brandName+this.name; 
+	public String getProductDescription() {
+		return this.brandName + this.name;
 	}
+
 	/**
 	 * @param name
 	 *            the name to set
@@ -149,19 +185,21 @@ public abstract class Material{
 	}
 
 	public final void setLimits(
-			Map<String, Map<Class<? extends User>, Integer>> limits) {
+			Map<String, Map<Class<? extends IUser>, Integer>> limits) {
 		this.limits = limits;
 	}
 
-	public final void setCopiesLimitation(Class<?extends User> classe, Integer newValue) {
+	public final void setCopiesLimitation(Class<? extends IUser> classe,
+			Integer newValue) {
 		this.limits.get(KEY_LIMIT_COPY).put(classe, newValue);
 	}
 
-	public final void setDelayLimitation(Class<?extends User> classe, Integer newValue) {
+	public final void setDelayLimitation(Class<? extends IUser> classe,
+			Integer newValue) {
 		this.limits.get(KEY_LIMIT_DELAY).put(classe, newValue);
 	}
 
-	public final void setDurationLimitation(Class<?extends User> classe,
+	public final void setDurationLimitation(Class<? extends IUser> classe,
 			Integer newValue) {
 		this.limits.get(KEY_LIMIT_DELAY).put(classe, newValue);
 	}
@@ -214,7 +252,7 @@ public abstract class Material{
 		String name = (String) description.get("name");
 		String brandName = (String) description.get("brandName");
 		State state = (State) description.get("state");
-		Map<String, Map<Class<?extends User>, Integer>> limits = (Map<String, Map<Class<?extends User>, Integer>>) description
+		Map<String, Map<Class<? extends IUser>, Integer>> limits = (Map<String, Map<Class<? extends IUser>, Integer>>) description
 				.get("limits");
 
 		if (id == null) {
@@ -230,7 +268,7 @@ public abstract class Material{
 
 	@Override
 	public String toString() {
-		return "#" + id + " :: " + brandName + " " + name;
+		return brandName + " " + name;
 	}
 
 	@Override

@@ -6,9 +6,15 @@
 
 package model.user;
 
+import java.util.Map;
+
 
 public class Student extends User implements IUser {
 
+	public Student() {
+		super();
+	}
+	
 	/**
 	 * Constructor using the following parameters :
 	 * @param id
@@ -18,7 +24,15 @@ public class Student extends User implements IUser {
 	 */
 	public Student(String id, String name) {
 		super(id, name);
-		this.maxDurationBorrow = 7;
 	}
-
+	
+	public Student(Map<String, Object> description) {
+		super(description);
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "\t[#" + getID() + "] [" + this.getClass().getSimpleName() + "]\t" + super.toString();
+	}
 }

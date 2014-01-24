@@ -5,9 +5,13 @@
  */
 package model.user;
 
+import java.util.Map;
+
 public class Teacher extends User {
 
-	private static final int MAX_LOANS=5; 
+	public Teacher() {
+		super();
+	}
 	
 	/**
 	 * Constructor using the following parameters :
@@ -18,7 +22,14 @@ public class Teacher extends User {
 	 */
 	public Teacher(String id, String name) {
 		super(id, name);
-		super.maxNumberLoan=MAX_LOANS; 
 	}
 	
+	public Teacher(Map<String, Object> description) {
+		super(description);
+	}
+	
+	@Override
+	public String toString() {
+		return "\t[#" + getID() + "] [" + this.getClass().getSimpleName() + "]\t" + super.toString();
+	}
 }

@@ -10,18 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class User implements IUser  {
+abstract class User implements IUser  {
 	
-	private String name;
-	private String id;
-	private List<Integer> listCourse = new ArrayList<Integer>();
-	protected int maxNumberLoan; 
-	
-	protected int maxDurationBorrow;
+	protected String name;
+	protected String id;
+	protected List<Integer> listCourse = new ArrayList<Integer>();
 	
 	protected long CONST_DURATION_OF_DAY = 1000l * 60 * 60 * 24;
 	
-	protected User() { }
+	public User() { }
 	
 	/**
 	 * Constructor using the followin parameters :
@@ -31,14 +28,18 @@ public class User implements IUser  {
 	 */
 	protected User(String id, String name) {
 		if(id == null) {
-			throw new IllegalArgumentException("La propri�t� id ne peux pas �tre null");
+			throw new IllegalArgumentException("The id specified is null");
 		}
 		
 		if(name == null) {
-			throw new IllegalArgumentException("La propri�t� nom ne peux pas �tre null");
+			throw new IllegalArgumentException("The name specified is null");
 		}
 		this.setID(id);
 		this.setName(name);
+	}
+	
+	protected User(Map<String, Object> description) {
+		this.restore(description);
 	}
 	
 	public List<Integer> getListCoursesId() {
@@ -64,7 +65,6 @@ public class User implements IUser  {
 		
 		description.put("name",this.getName());
 		description.put("id",this.getID());
-		description.put("maxDurationBorrow",this.maxDurationBorrow);
 		description.put("listCourse",this.listCourse);
 				
 		return description;		
@@ -80,12 +80,11 @@ public class User implements IUser  {
 		this.setName((String)description.get("name"));
 		this.setID((String)description.get("id"));
 		this.listCourse = (List<Integer>)description.get("listCourse");
-		this.maxDurationBorrow = (Integer)description.get("maxDurationBorrow");
 	}
 	
 	@Override
 	public String toString() {
-		return "(#" + getID() + " :: " + getName() + ")";
+		return getName();
 	}
 
 	@Override
@@ -93,10 +92,6 @@ public class User implements IUser  {
 		return name;
 	}
 	
-	public int getMaxNumberLoan(){
-		return this.maxNumberLoan; 
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}

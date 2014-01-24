@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.State;
-import model.user.User;
+import model.user.IUser;
 
 class IOSPhone extends Phone {
 
@@ -16,7 +16,7 @@ class IOSPhone extends Phone {
 
 	public IOSPhone(String name, String brandName, int screenSize,
 			ScreenType screenType, IOSVersion iosVersion, State state,
-			Map<String, Map<Class<? extends User>, Integer>> limitsDescription) {
+			Map<String, Map<Class<? extends IUser>, Integer>> limitsDescription) {
 		super(name, brandName, screenSize, screenType, state, limitsDescription);
 		this.version = iosVersion;
 	}
@@ -55,6 +55,6 @@ class IOSPhone extends Phone {
 
 	@Override
 	public String toString() {
-		return super.toString() + "- OS : IOS - Version : " + this.version;
+		return "\t[#" + id + "] [" + this.getClass().getSimpleName() + "]\t" +  " " + super.toString() + " - " + this.version;
 	}
 }

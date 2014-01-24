@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.State;
-import model.user.User;
+import model.user.IUser;
 
 abstract class ComputerDevice extends Material {
 
@@ -18,7 +18,7 @@ abstract class ComputerDevice extends Material {
 	public ComputerDevice(String name, String brandName, int screenSize,
 			ScreenType screenType,
 			State state,
-			Map<String, Map<Class<? extends User>, Integer>> limitsDescription) {
+			Map<String, Map<Class<? extends IUser>, Integer>> limitsDescription) {
 		super(name, brandName, state, limitsDescription);
 		this.setScreenSize(screenSize);
 		this.setScreenType(screenType);
@@ -79,8 +79,8 @@ abstract class ComputerDevice extends Material {
 
 	@Override
 	public String toString() {
-		return super.toString() + " - Type : phone - " + this.screenSize
-				+ "\" (" + this.screenType + ")";
+		return super.toString() + " - " + this.screenSize
+				+ "\" ecran " + this.screenType;
 	}
 
 	@Override

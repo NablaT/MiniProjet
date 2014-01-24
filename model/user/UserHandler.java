@@ -15,7 +15,7 @@ import model.util.ConfigXML;
 
 
 public class UserHandler {
-	private Map<Class<?extends Borrower>, List<IUser>> listOfUsersAccounts = new HashMap<Class<?extends Borrower>, List<IUser>>();
+	private Map<Class<?extends User>, List<IUser>> listOfUsersAccounts = new HashMap<Class<?extends User>, List<IUser>>();
 
 	private static final String PATH_ACCOUNT_FILE = "accounts";
 	private static final String VERSION_ACCOUNT_FILE = "0.0.0";
@@ -25,8 +25,10 @@ public class UserHandler {
 	 * the xml file as a parameter.
 	 * @author benni
 	 */
+	@SuppressWarnings("unchecked")
 	public UserHandler() {
-		restore((Map<String, List<Map<String, Object>>>) ConfigXML.load(PATH_ACCOUNT_FILE, VERSION_ACCOUNT_FILE));
+		restore((Map<String, List<Map<String, Object>>>) 
+				ConfigXML.load(PATH_ACCOUNT_FILE, VERSION_ACCOUNT_FILE));
 	}
 	
 	/**
@@ -55,6 +57,7 @@ public class UserHandler {
 	 * @author benni
 	 * @param teachersDescription
 	 */
+	@SuppressWarnings("unchecked")
 	private void buildListOfTeachers(List<Map<String, Object>> teachersDescription) {
 		
 		List<IUser> listOfTeachers = new ArrayList<IUser>();
@@ -76,6 +79,7 @@ public class UserHandler {
 	 * @author benni
 	 * @param teachersDescription
 	 */
+	@SuppressWarnings("unchecked")
 	private void buildListOfStudents(List<Map<String, Object>> studentsDescription) {
 		
 		List<IUser> listOfStudents = new ArrayList<IUser>();
@@ -97,11 +101,11 @@ public class UserHandler {
 	
 	
 	
-	public Map<Class<?extends Borrower>, List<IUser>> getBorrowerList() {
+	public Map<Class<?extends User>, List<IUser>> getBorrowerList() {
 		return listOfUsersAccounts;
 	}
 	
-	public List<IUser> getBorrowerList(Class<?extends Borrower> targetClass) {
+	public List<IUser> getBorrowerList(Class<?extends User> targetClass) {
 		return listOfUsersAccounts.get(targetClass);
 	}
 	
@@ -116,9 +120,9 @@ public class UserHandler {
 	 * @param userId
 	 * @return
 	 */
-	private Class<?extends Borrower> findUser(String userId) {
+	private Class<?extends User> findUser(String userId) {
 		
-		for(Class<?extends Borrower>  c : listOfUsersAccounts.keySet()) {
+		for(Class<?extends User>  c : listOfUsersAccounts.keySet()) {
 			for(IUser b : listOfUsersAccounts.get(c)) {
 				if(b.getID().equalsIgnoreCase(userId)) { return c; }
 			}
@@ -139,7 +143,7 @@ public class UserHandler {
 			return null;
 		}
 		
-		Class<?extends Borrower> targetClass = findUser(potentialID);
+		Class<?extends User> targetClass = findUser(potentialID);
 		for(IUser b : listOfUsersAccounts.get(targetClass)) {
 			if(b.getID().equalsIgnoreCase(potentialID)) {
 				return b; 
@@ -153,7 +157,7 @@ public class UserHandler {
 	public String toString() {
 		String res = "";
 		
-		for(Class<?extends Borrower> c : listOfUsersAccounts.keySet()) {
+		for(Class<?extends User> c : listOfUsersAccounts.keySet()) {
 			res += "\n" + c.getSimpleName() + " :\n\t";
 			for(IUser b : listOfUsersAccounts.get(c)) {
 				res += b.toString() + " ";

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import model.State;
 import model.user.IUser;
+import model.user.User;
 
 /**
  * This superclass represents any material in the app. It is abstract because
@@ -32,21 +33,27 @@ public abstract class Material{
 
 	// Const keys wich represent copy and day limits
 	// for each users described in the app
-	private static final String KEY_LIMIT_COPY = "maxCopy";
-	private static final String KEY_LIMIT_DAY = "maxDay";
+	public static final String KEY_LIMIT_COPY = "maxCopy";
+	public static final String KEY_LIMIT_DELAY = "maxDelay";
+	public static final String KEY_LIMIT_DURATION = "maxDuration";
 
 	// Map describing copy and day limits for each user
-	private Map<String, Map<Class<IUser>, Integer>> limits = new HashMap<String, Map<Class<IUser>, Integer>>();
+	private Map<String, Map<Class<? extends User>, Integer>> limits = new HashMap<String, Map<Class<? extends User>, Integer>>();
 
-	public Material() { idCounter++; }
-	
-	public Material(String name, String brandName) {
+	public Material() {
+		idCounter++;
+	}
+
+	public Material(String name, String brandName, State state,
+			Map<String, Map<Class<? extends User>, Integer>> limitsDescription) {
 		this.setName(name);
 		this.setBrandName(brandName);
 		this.setId(this.generateId(name, brandName));
+		this.setLimits(limitsDescription);
+		this.setState(state);
 		idCounter++;
 	}
-	
+
 	public Material(Map<String, Object> description) {
 		idCounter++;
 		this.restore(description);
@@ -77,18 +84,22 @@ public abstract class Material{
 		return this.state;
 	}
 
-	public final int getDayLimit(Class<IUser> targetClass) {
-		return this.limits.get(KEY_LIMIT_DAY).get(targetClass);
+	public final int getDelayLimitation(Class<IUser> targetClass) {
+		return this.limits.get(KEY_LIMIT_DELAY).get(targetClass);
 	}
 
-	public final int getCopyLimit(Class<IUser> targetClass) {
+	public final int getDurationLimitation(Class<IUser> targetClass) {
+		return this.limits.get(KEY_LIMIT_DURATION).get(targetClass);
+	}
+
+	public final int getCopyLimitation(Class<IUser> targetClass) {
 		return this.limits.get(KEY_LIMIT_COPY).get(targetClass);
 	}
 
 	public static final int getIdCounter() {
 		return Material.idCounter;
 	}
-	
+
 	/**
 	 * @param id
 	 *            the id to set
@@ -129,9 +140,30 @@ public abstract class Material{
 	}
 
 	public final void setState(State state) {
+		if (state == null) {
+			throw new IllegalArgumentException("The state specified is null");
+		}
 		this.state = state;
 	}
-	
+
+	public final void setLimits(
+			Map<String, Map<Class<? extends User>, Integer>> limits) {
+		this.limits = limits;
+	}
+
+	public final void setCopiesLimitation(Class<?extends User> classe, Integer newValue) {
+		this.limits.get(KEY_LIMIT_COPY).put(classe, newValue);
+	}
+
+	public final void setDelayLimitation(Class<?extends User> classe, Integer newValue) {
+		this.limits.get(KEY_LIMIT_DELAY).put(classe, newValue);
+	}
+
+	public final void setDurationLimitation(Class<?extends User> classe,
+			Integer newValue) {
+		this.limits.get(KEY_LIMIT_DELAY).put(classe, newValue);
+	}
+
 	public static final void incrementIdCounter() {
 		Material.idCounter++;
 	}
@@ -140,7 +172,6 @@ public abstract class Material{
 		Material.idCounter = 1;
 	}
 
-	
 	/**
 	 * Return a neutral description of the current material
 	 */
@@ -151,12 +182,14 @@ public abstract class Material{
 		result.put("id", this.getId());
 		result.put("name", this.getName());
 		result.put("brandName", this.getBrandName());
+		result.put("state", this.state);
+		result.put("limits", this.limits);
 
 		return result;
 	}
 
 	private String generateId(String name, String brandName) {
-		
+
 		String result = "";
 		int random = new Random().nextInt(9);
 
@@ -167,34 +200,39 @@ public abstract class Material{
 
 		return result;
 	}
-	
+
 	/**
 	 * Restore the current from a previous neutral description
 	 */
+	@SuppressWarnings("unchecked")
 	public void restore(Map<String, Object> description) {
-		
+
 		// Get specifics attributes
 		String id = (String) description.get("id");
 		String name = (String) description.get("name");
 		String brandName = (String) description.get("brandName");
-	
-		if(id == null) {
+		State state = (State) description.get("state");
+		Map<String, Map<Class<?extends User>, Integer>> limits = (Map<String, Map<Class<?extends User>, Integer>>) description
+				.get("limits");
+
+		if (id == null) {
 			this.setId(this.generateId(name, brandName));
-		}
-		else {
-			this.setId(id); 
+		} else {
+			this.setId(id);
 		}
 		this.setName(name);
 		this.setBrandName(brandName);
+		this.setState(state);
+		this.setLimits(limits);
 	}
 
 	@Override
 	public String toString() {
 		return "#" + id + " :: " + brandName + " " + name;
 	}
-	
+
 	@Override
 	public boolean equals(Object o) {
-		return this.id.equals(((Material)o).getId());
+		return this.id.equals(((Material) o).getId());
 	}
 }

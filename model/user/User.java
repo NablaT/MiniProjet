@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Borrower implements IUser  {
+public class User implements IUser  {
 	
 	private String name;
 	private String id;
@@ -20,7 +20,7 @@ public abstract class Borrower implements IUser  {
 	
 	protected long CONST_DURATION_OF_DAY = 1000l * 60 * 60 * 24;
 	
-	protected Borrower() { }
+	protected User() { }
 	
 	/**
 	 * Constructor using the followin parameters :
@@ -28,7 +28,7 @@ public abstract class Borrower implements IUser  {
 	 * @param name
 	 * @author benni
 	 */
-	protected Borrower(String id, String name) {
+	protected User(String id, String name) {
 		if(id == null) {
 			throw new IllegalArgumentException("La propri�t� id ne peux pas �tre null");
 		}
@@ -48,6 +48,7 @@ public abstract class Borrower implements IUser  {
 		this.listCourse = coursesId;
 	}
 
+	@Override
 	public String getID() {
 		return this.id;
 	}
@@ -73,6 +74,7 @@ public abstract class Borrower implements IUser  {
 	 * @param description
 	 * @author benni
 	 */
+	@SuppressWarnings("unchecked")
 	public void restore(Map<String, Object> description) {
 		this.setName((String)description.get("name"));
 		this.setID((String)description.get("id"));
@@ -85,6 +87,7 @@ public abstract class Borrower implements IUser  {
 		return "(#" + getID() + " :: " + getName() + ")";
 	}
 
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -96,7 +99,9 @@ public abstract class Borrower implements IUser  {
 	public void setID(String id) {
 		this.id = id;
 	}
-	
-		
-	
+
+	@Override
+	public boolean followCourse(Integer courseId) {
+		return this.listCourse.contains(courseId);
+	}
 }

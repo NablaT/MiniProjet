@@ -5,7 +5,7 @@
  */
 package model.user;
 
-public class Teacher extends Borrower {
+public class Teacher extends User {
 
 	/**
 	 * Constructor using the following parameters :

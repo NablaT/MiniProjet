@@ -92,6 +92,10 @@ public abstract class Material{
 		return this.limits.get(KEY_LIMIT_DURATION).get(targetClass);
 	}
 
+	public int getCopyLimitation(User user){
+		return this.limits.get(KEY_LIMIT_COPY).get(user); 
+	}
+	
 	public int getCopyLimitation(Class<?extends User> targetClass) {
 		return this.limits.get(KEY_LIMIT_COPY).get(targetClass);
 	}

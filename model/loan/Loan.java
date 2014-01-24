@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import model.State;
+import model.course.Course;
 import model.material.Material;
 import model.user.IUser;
 import model.user.User;
@@ -14,7 +15,8 @@ import model.user.User;
  * end date. It also contains start states and end states for all material.
  */
 public class Loan {
-	private List<Class<? extends Material>> material;
+	private List<? extends Material> material;
+	private Course course; 
 	private Calendar startDate;
 	private Calendar endDate;
 	private Calendar askDate;
@@ -23,10 +25,11 @@ public class Loan {
 	private List<State> startState;
 	private List<State> endState;
 
-	public Loan(List<Class<? extends Material>> material, Calendar startDate,
+	public Loan(List<? extends Material> material, Course course, Calendar startDate,
 			Calendar endDate, Calendar askDate, User user,
 			List<State> startState) {
 		this.material = material;
+		this.course=course;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.askDate = askDate;
@@ -36,10 +39,13 @@ public class Loan {
 		this.endState = new ArrayList<State>();
 	}
 
-	public List<Class<? extends Material>> getMaterial() {
+	public List<? extends Material> getMaterial() {
 		return this.material;
 	}
 
+	public Course getCourse(){
+		return this.course;
+	}
 	public Calendar getStartDate() {
 		return this.startDate;
 	}
@@ -60,6 +66,10 @@ public class Loan {
 		return this.gaveBack;
 	}
 
+	public void setCourse(Course c){
+		this.course=c; 
+	}
+	
 	public void setGaveBack(boolean gaveBack) {
 		this.gaveBack = gaveBack;
 	}
@@ -96,7 +106,7 @@ public class Loan {
 		this.startDate = date;
 	}
 
-	public void setMaterial(List<Class<? extends Material>> list) {
+	public void setMaterial(List<? extends Material> list) {
 		this.material = list;
 	}
 
@@ -106,8 +116,8 @@ public class Loan {
 	 * 
 	 * @return
 	 */
-	public List<Class<? extends Material>> getTypesOfMaterial(
-			Class<? extends Material> classe) {
+	/*
+	public List<? extends Material> getTypesOfMaterial(Class<? extends Material> classe) {
 		ArrayList<Class<? extends Material>> list = new ArrayList<Class<? extends Material>>();
 		for (int i = 0; i < this.material.size(); i++) {
 			if (this.material.get(i).getClass().getName()
@@ -117,7 +127,7 @@ public class Loan {
 		}
 		return list;
 	}
-
+*/
 	/**
 	 * Methode getNumberOf. Cette methode retourne le nombre de material
 	 * specifique se trouvant dans la liste de material.

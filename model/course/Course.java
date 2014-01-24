@@ -8,7 +8,7 @@ public class Course {
 	private Calendar startDate;
 	private Calendar endDate;
 	private String name;
-	private List<Integer> productsAllowed;
+	private List<String> productsAllowed;
 	private int id;
  
 	public Map<String, Object> getDescription() {
@@ -19,7 +19,7 @@ public class Course {
 		throw new UnsupportedOperationException();
 	}
 
-	public List<Integer> getAllowedProduct() {
+	public List<String> getAllowedProduct() {
 		throw new UnsupportedOperationException();
 	}
 

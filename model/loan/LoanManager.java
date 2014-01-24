@@ -3,6 +3,7 @@ package model.loan;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import model.material.Material;
 import model.material.StockManager;
@@ -74,15 +75,19 @@ public class LoanManager {
 	 * @return
 	 */
 	private boolean canBorrow(Loan loan) {
-		//If the loans number is less than the max loans number and if 
-
-		HashMap<Class<? extends Material>, Integer> oldMaterial=getAllMaterialsLoan(loan.getUser()) ;
-		HashMap<Class<? extends Material>, Integer> newMaterial=getAllMaterialsHeWants(loan);
-		Class<? extends Material> material = loan.getMaterial().get(0); 
-		for(int i=0; i<loan.getMaterial().size(); i++){
-			//if(loan.getMaterial().get(i).getCopyLimitation())
+		HashMap<String, Integer> oldMaterial = getAllMaterialsLoan(loan
+				.getUser());
+		// HashMap<String, Integer> newMaterial =
+		// getHMOfMaterial(loan.getMaterial());
+		HashMap<String, Integer> newMaterial = getAllMaterialsHeWants(loan);
+		for (int i = 0; i < loan.getMaterial().size(); i++) {
+			if (loan.getMaterial().get(i).getCopyLimitation(loan.getUser()) < (oldMaterial
+					.get(loan.getMaterial().get(i)))
+					+ newMaterial.get(loan.getMaterial().get(i))) {
+				return false;
+			}
 		}
-		return false;
+		return true;
 	}
 
 	/**
@@ -91,27 +96,24 @@ public class LoanManager {
 	 * @param user
 	 * @return
 	 */
-/*
-	private int howManyLoan(User user) {
-		int cpt = 0;
-		for (int i = 0; i < this.unreturnedLoans.size(); i++) {
-			if (this.unreturnedLoans.get(i).getUser().equals(user)) {
-				cpt++;
-			}
-		}
-		return cpt;
-	}*/
+	/*
+	 * private int howManyLoan(User user) { int cpt = 0; for (int i = 0; i <
+	 * this.unreturnedLoans.size(); i++) { if
+	 * (this.unreturnedLoans.get(i).getUser().equals(user)) { cpt++; } } return
+	 * cpt; }
+	 */
 
 	/**
 	 * This method returns an hashmap which contains for each material loaning
-	 * by the user the quantity of this material <Key = material, value= quantity>
+	 * by the user the quantity of this material <Key = material, value=
+	 * quantity>
 	 * 
 	 * @param user
 	 * @return
 	 */
-	private HashMap<Class<? extends Material>, Integer> getAllMaterialsLoan(
-			User user) {
-		HashMap<Class<? extends Material>, Integer> hm = new HashMap<Class<? extends Material>, Integer>();
+
+	private HashMap<String, Integer> getAllMaterialsLoan(User user) {
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
 		for (int i = 0; i < this.unreturnedLoans.size(); i++) {
 			// Dans la liste des emprunts, si un emprunt est a été fait par le
 			// user alors
@@ -119,44 +121,45 @@ public class LoanManager {
 				// On parcourt les materiels empruntés
 				for (int j = 0; j < this.unreturnedLoans.get(i).getMaterial()
 						.size(); j++) {
-					Class<? extends Material> m = this.unreturnedLoans.get(i)
-							.getMaterial().get(j);
 					// Si on a deja mis le materiel dans l'hasmap alors on
 					// incremente juste le nombre
-					if (hm.get(m) != null) {
-						hm.put(m, hm.get(m) + 1);
+					String key = this.unreturnedLoans.get(i).getMaterial()
+							.get(j).getBrandName()
+							+ this.unreturnedLoans.get(i).getMaterial().get(j)
+									.getName();
+					if (hm.get(key) != null) {
+						hm.put(key, hm.get(key) + 1);
 					}
 					// Sinon on le rajoute a l'hashmap.
 					else {
-						hm.put(m, 1);
+						hm.put(key, 1);
 					}
 				}
 			}
 		}
 		return hm;
-
 	}
 
 	/**
-	 * Returns an hashmap which contains for each material ask its quantity. 
+	 * Returns an hashmap which contains for each material ask its quantity.
 	 * <key = material, value = quantity>
+	 * 
 	 * @param loan
 	 * @return
 	 */
-	private HashMap<Class<? extends Material>, Integer> getAllMaterialsHeWants(
-			Loan loan) {
-		HashMap<Class<? extends Material>, Integer> hm = new HashMap<Class<? extends Material>, Integer>();
-		for (int i = 0; i < loan.getMaterial().size(); i++) {
-			Class<? extends Material> m = this.unreturnedLoans.get(i)
-					.getMaterial().get(i);
-			// Si on a deja mis le materiel dans l'hasmap alors on incremente
+
+	private HashMap<String, Integer> getHMOfMaterial(
+			List<? extends Material> list) {
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		for (int i = 0; i < list.size(); i++) {
+			// Si on a deja mis le materiel dans l'hashmap alors on incremente
 			// juste le nombre
-			if (hm.get(m) != null) {
-				hm.put(m, hm.get(m) + 1);
+			if (hm.get(list.get(i).getName()) != null) {
+				hm.put(list.get(i).getName(), hm.get(list.get(i).getName()) + 1);
 			}
 			// Sinon on le rajoute a l'hashmap.
 			else {
-				hm.put(m, 1);
+				hm.put(list.get(i).getName(), 1);
 			}
 
 		}
@@ -164,22 +167,28 @@ public class LoanManager {
 
 	}
 
-	private int howManyMaterialCurrentlyLoan(Material material, User user) {
-		int cpt = 0;
-		for (int i = 0; i < this.unreturnedLoans.size(); i++) {
-			// Si le loan i a été fait par le user alors on regarde combien de
-			// fois il a emprunté le materiel en question
-			if (this.unreturnedLoans.get(i).getUser().equals(user)) {
-				for (int j = 0; j < this.unreturnedLoans.get(i).getMaterial()
-						.size(); j++) {
-					if (this.unreturnedLoans.get(i).getMaterial().get(j)
-							.equals(material)) {
-						cpt++;
-					}
-				}
+	private HashMap<String, Integer> getAllMaterialsHeWants(Loan loan) {
+		HashMap<String, Integer> hm = new HashMap<String, Integer>();
+		for (int i = 0; i < loan.getMaterial().size(); i++) {
+			// ? extends Material m = this.unreturnedLoans.get(i)
+			// .getMaterial().get(i);
+			// Si on a deja mis le materiel dans l'hasmap alors on incremente
+			// juste le nombre
+			String key = this.unreturnedLoans.get(i).getMaterial().get(i)
+					.getBrandName()
+					+ this.unreturnedLoans.get(i).getMaterial().get(i)
+							.getName();
+			if (hm.get(key) != null) {
+				hm.put(key, hm.get(key) + 1);
 			}
+			// Sinon on le rajoute a l'hashmap.
+			else {
+				hm.put(key, 1);
+			}
+
 		}
-		return cpt;
+		return hm;
+
 	}
 
 	/**
@@ -207,8 +216,31 @@ public class LoanManager {
 	 * @return
 	 */
 	private boolean checkCourses(Loan loan) {
-
+		int cpt = 0;
+		// Pour chaque materiel que l'emprunteur veut, on verifie qu'il se
+		// trouve bien dans la liste des
+		// materiels disponibles pour ce cours là.
+		for (int i = 0; i < loan.getMaterial().size(); i++) {
+			for (int j = 0; j < loan.getCourse().getAllowedProduct().size(); i++) {
+				if (loan.getMaterial().get(i).getId()
+						.equals(loan.getCourse().getAllowedProduct().get(j))) {
+					cpt++;
+					break;
+				}
+			}
+		}
+		if (cpt == loan.getMaterial().size()) {
+			return true;
+		}
 		return false;
+	}
+
+	private ArrayList<String> returnTypeOfMaterial(ArrayList<Material> list) {
+		ArrayList<String> result = new ArrayList<String>();
+		for (int i = 0; i < list.size(); i++) {
+
+		}
+		return result;
 	}
 
 	/**

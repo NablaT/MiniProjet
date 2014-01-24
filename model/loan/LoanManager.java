@@ -1,8 +1,10 @@
 package model.loan;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.material.Material;
+import model.user.User;
 
 /**
  * This class will provides services to manage loans.
@@ -19,8 +21,49 @@ public class LoanManager {
 	private ArrayList<Loan> oldLoans;
 
 	public void LoanManagment(Object list) {
-
+		
 	}
+
+
+	public boolean makeALoan(Loan loan) {
+		if (this.isAvailable(loan)
+				&& askForALoan(loan.getUser())) {
+			this.unreturnedLoans.add(loan);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	private boolean askForALoan(User user) {
+		
+		return false;
+	}
+
+
+	private boolean isAvailable(Loan loan){
+		for(int i=0; i<this.unreturnedLoans.size();i++){
+			if(this.sameDate(this.unreturnedLoans.get(i),loan)){
+				return false;
+			}
+		}
+		return true; 
+	}
+	
+
+	
+	/**
+	 * Method  sameDate. This method returns true if loans date are identical. Specifically, if loans interval (difference 
+	 * between end date and start date) overlap.
+	 * @param loan
+	 * @param loan2
+	 * @return
+	 */
+	private boolean sameDate(Loan loan, Loan loan2) {
+		
+		return false;
+	}
+
 
 	/**
 	 * 
@@ -68,7 +111,7 @@ public class LoanManager {
 		Loan loan= returnLoan(material);
 		if (loan != null) {
 			this.oldLoans.add(loan);
-			this.unreturnedLoans.remove(loan); 
+			this.unreturnedLoans.remove(loan); ////// A TESTER
 		}
 	}
 

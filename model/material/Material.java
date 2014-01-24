@@ -11,6 +11,7 @@ import model.user.User;
  * This superclass represents any material in the app. It is abstract because
  * you can't create an instance of a Material.
  */
+
 public abstract class Material{
 
 	// Unique ID of the current material

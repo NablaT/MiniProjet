@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.material.Material;
-import model.user.User;
+import model.material.StockManager;
+import model.user.*;
 
 /**
  * This class will provides services to manage loans.
@@ -15,32 +16,56 @@ public class LoanManager {
 	 * loans unreturned, current loans or future loans.
 	 */
 	private ArrayList<Loan> unreturnedLoans;
+	
 	/**
-	 * This list contains all old loans. An old loan is a loan wich is returned.
+	 * This list contains all old loans. An old loan is a loan which is returned.
 	 */
 	private ArrayList<Loan> oldLoans;
 
-	public void LoanManagment(Object list) {
-		
+	public void LoanManagment(ArrayList<Loan> list) {
+		this.unreturnedLoans=list; 
+		this.oldLoans=new ArrayList<Loan>(); 
 	}
-
-
+/*
 	public boolean makeALoan(Loan loan) {
 		if (this.isAvailable(loan)
-				&& askForALoan(loan.getUser())) {
+				&& askForALoan(loan.getUser()),loan) {
 			this.unreturnedLoans.add(loan);
 			return true;
 		}
 		return false;
 	}
 	
-	
-	private boolean askForALoan(User user) {
-		
-		return false;
+	/*
+	private boolean askForALoan(Borrower user,Loan loan) {
+		if(user.getClass().getName().equals("Teacher")){
+			return askForATeacher(user, loan);
+		}
+		else if(user.getClass().getName().equals("Student")){
+			return askForAStudent(user,loan); 
+		}
+		return false; 
 	}
 
+	private boolean askForATeacher(Borrower user){
+		if(this.checkCourse)
+		return false; 
+	}
+	
+	private boolean askForAStudent(IUser user){
+		if()
+		return false; 
+	}
 
+	private int numberOfLoans(IUser user){
+		int cpt=0; 
+		for(int i=0; i<this.unreturnedLoans.size();i++){
+			if(this.unreturnedLoans.get(i).getUser().equals(user){
+				
+			}
+		}
+	}
+	*/
 	private boolean isAvailable(Loan loan){
 		for(int i=0; i<this.unreturnedLoans.size();i++){
 			if(this.sameDate(this.unreturnedLoans.get(i),loan)){

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-abstract class Borrower implements IUser  {
+public abstract class Borrower implements IUser  {
 	
 	private String name;
 	private String id;
@@ -96,4 +96,7 @@ abstract class Borrower implements IUser  {
 	public void setID(String id) {
 		this.id = id;
 	}
+	
+		
+	
 }

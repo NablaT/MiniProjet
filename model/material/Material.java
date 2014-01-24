@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import model.State;
-import model.user.User;
+import model.user.IUser;
 
 /**
  * This superclass represents any material in the app. It is abstract because
@@ -36,9 +36,9 @@ public abstract class Material{
 	private static final String KEY_LIMIT_DAY = "maxDay";
 
 	// Map describing copy and day limits for each user
-	private Map<String, Map<Class<? extends User>, Integer>> limits = new HashMap<String, Map<Class<? extends User>, Integer>>();
+	private Map<String, Map<Class<IUser>, Integer>> limits = new HashMap<String, Map<Class<IUser>, Integer>>();
 
-	public Material() {}
+	public Material() { idCounter++; }
 	
 	public Material(String name, String brandName) {
 		this.setName(name);
@@ -46,16 +46,9 @@ public abstract class Material{
 		this.setId(this.generateId(name, brandName));
 		idCounter++;
 	}
-
-	public Material(String id, String name, String brandName) {
-		this.setId(id + idCounter);
-		this.setName(name);
-		this.setBrandName(brandName);
-		idCounter++;
-	}
 	
 	public Material(Map<String, Object> description) {
-		System.out.println("Material - c - map");
+		idCounter++;
 		this.restore(description);
 	}
 
@@ -84,14 +77,18 @@ public abstract class Material{
 		return this.state;
 	}
 
-	public final int getDayLimit(Class<? extends User> targetClass) {
+	public final int getDayLimit(Class<IUser> targetClass) {
 		return this.limits.get(KEY_LIMIT_DAY).get(targetClass);
 	}
 
-	public final int getCopyLimit(Class<? extends User> targetClass) {
+	public final int getCopyLimit(Class<IUser> targetClass) {
 		return this.limits.get(KEY_LIMIT_COPY).get(targetClass);
 	}
 
+	public static final int getIdCounter() {
+		return Material.idCounter;
+	}
+	
 	/**
 	 * @param id
 	 *            the id to set
@@ -134,7 +131,16 @@ public abstract class Material{
 	public final void setState(State state) {
 		this.state = state;
 	}
+	
+	public static final void incrementIdCounter() {
+		Material.idCounter++;
+	}
 
+	public static final void resetIdCounter() {
+		Material.idCounter = 1;
+	}
+
+	
 	/**
 	 * Return a neutral description of the current material
 	 */
@@ -150,6 +156,7 @@ public abstract class Material{
 	}
 
 	private String generateId(String name, String brandName) {
+		
 		String result = "";
 		int random = new Random().nextInt(9);
 
@@ -160,18 +167,23 @@ public abstract class Material{
 
 		return result;
 	}
-
+	
 	/**
 	 * Restore the current from a previous neutral description
 	 */
 	public void restore(Map<String, Object> description) {
-		System.out.println("Material - restore");
+		
 		// Get specifics attributes
 		String id = (String) description.get("id");
 		String name = (String) description.get("name");
 		String brandName = (String) description.get("brandName");
-
-		this.setId(id); 
+	
+		if(id == null) {
+			this.setId(this.generateId(name, brandName));
+		}
+		else {
+			this.setId(id); 
+		}
 		this.setName(name);
 		this.setBrandName(brandName);
 	}

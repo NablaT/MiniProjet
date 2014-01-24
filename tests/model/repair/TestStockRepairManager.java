@@ -4,11 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Map;
 
-import model.material.AndroidPhone;
-import model.material.Camera;
-import model.material.IOSPhone;
 import model.material.Material;
+import model.material.StockManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,16 +23,22 @@ public class TestStockRepairManager {
     private ArrayList<Material> material2 = new ArrayList<Material>();
     private ArrayList<Material> materialEmpty = new ArrayList<Material>();
 
+    private StockManager sm;
+    
     @Before
     public void setUp() {
+    	
+    	
+    	
         manager1 = new StockRepairManager(date1);
         managerNow = new StockRepairManager(today);
         manager2 = new StockRepairManager(date2);
 
-        material1.add(new Camera("102", "Bob", "Sony"));
-        material1.add(new AndroidPhone("103", "Toto", "Firefox"));
-
-        material2.add(new IOSPhone("104", "Titi", "IOS"));
+        sm.load();
+        
+        material1.add(sm.stockToList().get(0));
+        material1.add(sm.stockToList().get(1));
+        material2.add(sm.stockToList().get(2));
     }
 
     @Test

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+
 import model.material.*;
 
 public class TestRepair {
@@ -21,14 +22,21 @@ public class TestRepair {
     private ArrayList<Material> materialEmpty=new ArrayList<Material>();
     private Repair r,r1,r2,rEmpty;
     
+    //private static Map<String, Object> phoneDescription=new HashMap<String,Object>();
+    private StockManager sm;
+    
     @Before
     public void setUp() {
-        
-        material.add(new Camera("102","Bob","Sony"));
-        material.add(new AndroidPhone("103","Toto","Firefox"));
-        
-        material2.add(new IOSPhone("104","Titi","IOS"));
-        
+    	
+    	//ici il faut rajouter dans material des matériels.
+    	
+    	
+    	sm = new StockManager();
+    	sm.load();
+    	
+        material.add(sm.stockToList().get(0));
+        material.add(sm.stockToList().get(1));
+        material2.add(sm.stockToList().get(2));
         r=new Repair(material,today);
         r1=new Repair(material,date1);
         r2=new Repair(material2,date2);

@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Random;
 
 import model.State;
-import model.user.IUser;
 import model.user.User;
 
 /**

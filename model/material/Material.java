@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Random;
 
 import model.State;
-import model.user.IUser;
 import model.user.User;
 
 /**
@@ -62,41 +61,37 @@ public abstract class Material{
 	/**
 	 * @return the id
 	 */
-	public String getId() {
+	public final String getId() {
 		return id;
 	}
 
 	/**
 	 * @return the name
 	 */
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 
 	/**
 	 * @return the brandName
 	 */
-	public String getBrandName() {
+	public final String getBrandName() {
 		return brandName;
 	}
 
-	public State getState() {
+	public final State getState() {
 		return this.state;
 	}
 
-	public int getDelayLimitation(Class<?extends User> targetClass) {
+	public final int getDelayLimitation(Class<?extends User> targetClass) {
 		return this.limits.get(KEY_LIMIT_DELAY).get(targetClass);
 	}
 
-	public int getDurationLimitation(Class<?extends User> targetClass) {
+	public final int getDurationLimitation(Class<?extends User> targetClass) {
 		return this.limits.get(KEY_LIMIT_DURATION).get(targetClass);
 	}
 
-	public int getCopyLimitation(User user){
-		return this.limits.get(KEY_LIMIT_COPY).get(user); 
-	}
-	
-	public int getCopyLimitation(Class<?extends User> targetClass) {
+	public final int getCopyLimitation(Class<?extends User> targetClass) {
 		return this.limits.get(KEY_LIMIT_COPY).get(targetClass);
 	}
 
@@ -108,7 +103,7 @@ public abstract class Material{
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(String id) {
+	public final void setId(String id) {
 		if (id == null || id.length() == 0) {
 			throw new IllegalArgumentException(
 					"The id specified is null or empty");
@@ -117,11 +112,14 @@ public abstract class Material{
 		this.id = id;
 	}
 
+	public String getProductDescription(){
+		return this.brandName+this.name; 
+	}
 	/**
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
+	public final void setName(String name) {
 		if (name == null || name.length() == 0) {
 			throw new IllegalArgumentException(
 					"The name specified is null or empty");
@@ -134,7 +132,7 @@ public abstract class Material{
 	 * @param brandName
 	 *            the brandName to set
 	 */
-	public void setBrandName(String brandName) {
+	public final void setBrandName(String brandName) {
 		if (brandName == null || brandName.length() == 0) {
 			throw new IllegalArgumentException(
 					"The brandName specified is null or empty");
@@ -143,36 +141,36 @@ public abstract class Material{
 		this.brandName = brandName;
 	}
 
-	public void setState(State state) {
+	public final void setState(State state) {
 		if (state == null) {
 			throw new IllegalArgumentException("The state specified is null");
 		}
 		this.state = state;
 	}
 
-	public void setLimits(
+	public final void setLimits(
 			Map<String, Map<Class<? extends User>, Integer>> limits) {
 		this.limits = limits;
 	}
 
-	public void setCopiesLimitation(Class<?extends User> classe, Integer newValue) {
+	public final void setCopiesLimitation(Class<?extends User> classe, Integer newValue) {
 		this.limits.get(KEY_LIMIT_COPY).put(classe, newValue);
 	}
 
-	public void setDelayLimitation(Class<?extends User> classe, Integer newValue) {
+	public final void setDelayLimitation(Class<?extends User> classe, Integer newValue) {
 		this.limits.get(KEY_LIMIT_DELAY).put(classe, newValue);
 	}
 
-	public void setDurationLimitation(Class<?extends User> classe,
+	public final void setDurationLimitation(Class<?extends User> classe,
 			Integer newValue) {
 		this.limits.get(KEY_LIMIT_DELAY).put(classe, newValue);
 	}
 
-	public static void incrementIdCounter() {
+	public static final void incrementIdCounter() {
 		Material.idCounter++;
 	}
 
-	public static void resetIdCounter() {
+	public static final void resetIdCounter() {
 		Material.idCounter = 1;
 	}
 

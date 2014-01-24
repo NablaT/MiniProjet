@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+
 import model.material.Material;
 import model.material.StockManager;
 import model.user.*;
@@ -31,8 +32,9 @@ public class LoanManager {
 	}
 
 	/**
-	 * Method makeALoan. This method returns true if the reservation succeed.
-	 * Else false.
+	 * This is the first step for a loan. This method returns true if the
+	 * reservation succeed. Else false. It calls two methods: isAvailable and
+	 * askForALoan.
 	 * 
 	 * @param loan
 	 * @return
@@ -47,7 +49,9 @@ public class LoanManager {
 	}
 
 	/**
-	 * This method allows to check if
+	 * This method allows to check if a borrower can do this loan. It calls two
+	 * methods, askForATeacher if the user is a teacher and askForAStudent if
+	 * the user is a student.
 	 * 
 	 * @param user
 	 * @param loan
@@ -62,6 +66,15 @@ public class LoanManager {
 		return false;
 	}
 
+	/**
+	 * Three methods called. They etablish the three prerogative which verify if
+	 * the user can borrow. 1 - User has to ask material which correspond to his
+	 * courses. 2 - User hasn't be late on others loans. 3 - User can't ask more
+	 * material than he cans.
+	 * 
+	 * @param loan
+	 * @return
+	 */
 	private boolean askForATeacher(Loan loan) {
 		return (this.checkCourses(loan) && this.notLate(loan) && canBorrow(loan));
 	}
@@ -74,11 +87,10 @@ public class LoanManager {
 	 * @param loan
 	 * @return
 	 */
+
 	private boolean canBorrow(Loan loan) {
 		HashMap<String, Integer> oldMaterial = getAllMaterialsLoan(loan
 				.getUser());
-		// HashMap<String, Integer> newMaterial =
-		// getHMOfMaterial(loan.getMaterial());
 		HashMap<String, Integer> newMaterial = getAllMaterialsHeWants(loan);
 		for (int i = 0; i < loan.getMaterial().size(); i++) {
 			if (loan.getMaterial().get(i).getCopyLimitation(loan.getUser()) < (oldMaterial
@@ -105,8 +117,8 @@ public class LoanManager {
 
 	/**
 	 * This method returns an hashmap which contains for each material loaning
-	 * by the user the quantity of this material <Key = material, value=
-	 * quantity>
+	 * by the user the quantity of this material <Key = brandName+version,
+	 * value= quantity>
 	 * 
 	 * @param user
 	 * @return
@@ -124,9 +136,7 @@ public class LoanManager {
 					// Si on a deja mis le materiel dans l'hasmap alors on
 					// incremente juste le nombre
 					String key = this.unreturnedLoans.get(i).getMaterial()
-							.get(j).getBrandName()
-							+ this.unreturnedLoans.get(i).getMaterial().get(j)
-									.getName();
+							.get(j).getProductDescription();
 					if (hm.get(key) != null) {
 						hm.put(key, hm.get(key) + 1);
 					}
@@ -142,7 +152,7 @@ public class LoanManager {
 
 	/**
 	 * Returns an hashmap which contains for each material ask its quantity.
-	 * <key = material, value = quantity>
+	 * <key = brandName+version, value = quantity>
 	 * 
 	 * @param loan
 	 * @return
@@ -175,9 +185,7 @@ public class LoanManager {
 			// Si on a deja mis le materiel dans l'hasmap alors on incremente
 			// juste le nombre
 			String key = this.unreturnedLoans.get(i).getMaterial().get(i)
-					.getBrandName()
-					+ this.unreturnedLoans.get(i).getMaterial().get(i)
-							.getName();
+					.getProductDescription();
 			if (hm.get(key) != null) {
 				hm.put(key, hm.get(key) + 1);
 			}
@@ -265,13 +273,43 @@ public class LoanManager {
 	 * 
 	 * } } }
 	 */
+
+	/**
+	 * This method verify if all of the asked material is free.
+	 * 
+	 * @param loan
+	 * @return
+	 */
 	private boolean isAvailable(Loan loan) {
+
 		for (int i = 0; i < this.unreturnedLoans.size(); i++) {
-			if (this.sameDate(this.unreturnedLoans.get(i), loan)) {
-				return false;
-			}
+
 		}
 		return true;
+	}
+
+	/**
+	 * This method returns the material list which can't be loaning.
+	 * 
+	 * @param loan
+	 * @return
+	 */
+
+	public ArrayList<Loan> saveBadLoan(Loan loan) {
+		ArrayList<Loan> loansNotLoanable = new ArrayList<Loan>();
+		HashMap<String, Integer> newHm=this.getHMOfMaterial(loan.getMaterial()); 
+		
+		for (int i = 0; i < this.unreturnedLoans.size(); i++) {
+			/*
+			 * Si la date est la même: On verifie si ce sont les mêmes materiels
+			 */
+			if (sameDate(this.unreturnedLoans.get(i), loan)) {
+				HashMap<String, Integer> currentHm= this.getHMOfMaterial(this.unreturnedLoans.get(i).getMaterial());
+				
+				
+			}
+		}
+		return loansNotLoanable;
 	}
 
 	/**
@@ -283,9 +321,11 @@ public class LoanManager {
 	 * @param loan2
 	 * @return
 	 */
-	private boolean sameDate(Loan loan, Loan loan2) {
 
-		return false;
+	private boolean sameDate(Loan loan, Loan loan2) {
+		return (!(loan.getEndDate().before(loan2.getStartDate())) || (loan2
+				.getStartDate().before(loan.getStartDate()) && loan2
+				.getEndDate().before(loan.getStartDate())));
 	}
 
 	/**

@@ -134,11 +134,11 @@ public class Loan {
 	 * 
 	 * @param classe
 	 * @return
-	 */
+	 *//*
 	public int getNumberOf(Class<? extends Material> classe) {
 		return (this.getTypesOfMaterial(classe).size());
 
-	}
+	}*/
 
 	/**
 	 * Methode getNumberOfDayOfDelay. Cette methode retourne le nombre de jour

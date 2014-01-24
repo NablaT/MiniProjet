@@ -7,6 +7,8 @@ package model.user;
 
 public class Teacher extends User {
 
+	private static final int MAX_LOANS=5; 
+	
 	/**
 	 * Constructor using the following parameters :
 	 * @param id
@@ -16,5 +18,7 @@ public class Teacher extends User {
 	 */
 	public Teacher(String id, String name) {
 		super(id, name);
+		super.maxNumberLoan=MAX_LOANS; 
 	}
+	
 }

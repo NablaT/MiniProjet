@@ -7,6 +7,7 @@ import java.util.List;
 import model.State;
 import model.material.Material;
 import model.user.IUser;
+import model.user.User;
 
 /**
  * A loan contains the list of material concerned, who made it, start date and
@@ -16,16 +17,19 @@ public class Loan {
 	private List<Class<? extends Material>> material;
 	private Calendar startDate;
 	private Calendar endDate;
-	private IUser user;
+	private Calendar askDate;
+	private User user;
 	private boolean gaveBack;
 	private List<State> startState;
-	private List<State> endState; 
+	private List<State> endState;
 
 	public Loan(List<Class<? extends Material>> material, Calendar startDate,
-			Calendar endDate, IUser user, List<State> startState) {
+			Calendar endDate, Calendar askDate, User user,
+			List<State> startState) {
 		this.material = material;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.askDate = askDate;
 		this.user = user;
 		this.gaveBack = false;
 		this.startState = startState;
@@ -44,7 +48,11 @@ public class Loan {
 		return this.endDate;
 	}
 
-	public IUser getUser() {
+	public Calendar getAskDate() {
+		return this.askDate;
+	}
+
+	public User getUser() {
 		return this.user;
 	}
 
@@ -72,12 +80,16 @@ public class Loan {
 		this.startState = listState;
 	}
 
-	public void setUser(IUser user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 
 	public void setEndDate(Calendar date) {
 		this.endDate = date;
+	}
+
+	public void setAskDate(Calendar date) {
+		this.askDate = date;
 	}
 
 	public void setStartDate(Calendar date) {
@@ -153,6 +165,7 @@ public class Loan {
 		return (this.material.equals(loan.getMaterial())
 				&& (this.sameDate(startDate, loan.getStartDate()))
 				&& (this.sameDate(this.endDate, loan.getEndDate()))
+				&& (this.sameDate(this.askDate, loan.getAskDate()))
 				&& this.user.equals(loan.getUser())
 				&& (this.gaveBack == loan.getGaveBack())
 				&& sameList(this.startState, loan.getStartState()) && sameList(
@@ -160,12 +173,13 @@ public class Loan {
 	}
 
 	/**
-	 * This method compare two lists and it returns true if they are identical. 
+	 * This method compare two lists and it returns true if they are identical.
+	 * 
 	 * @param l1
 	 * @param l2
 	 * @return
 	 */
-	
+
 	public static boolean sameList(List l1, List l2) {
 		if (l1.size() != l2.size()) {
 			return false;

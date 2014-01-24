@@ -15,6 +15,7 @@ public class User implements IUser  {
 	private String name;
 	private String id;
 	private List<Integer> listCourse = new ArrayList<Integer>();
+	protected int maxNumberLoan; 
 	
 	protected int maxDurationBorrow;
 	
@@ -91,6 +92,10 @@ public class User implements IUser  {
 	public String getName() {
 		return name;
 	}
+	
+	public int getMaxNumberLoan(){
+		return this.maxNumberLoan; 
+	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -103,5 +108,9 @@ public class User implements IUser  {
 	@Override
 	public boolean followCourse(Integer courseId) {
 		return this.listCourse.contains(courseId);
+	}
+	
+	public boolean equals(User user){
+		return (this.id.equals(user.getID())); 
 	}
 }

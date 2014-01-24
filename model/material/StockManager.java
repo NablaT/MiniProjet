@@ -7,13 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import model.Manager;
 import model.util.ConfigXML;
 
 /**
  * This class will provides services to manage the stock.
  */
 
-public class StockManager {
+public class StockManager implements Manager {
 
 	private static final String KEY_STOCK_FILE = "stockDescription.xml";
 	private static final String KEY_STOCK_VERSION = "0.0.0";
@@ -80,8 +81,8 @@ public class StockManager {
 		return getMaterial(id) != null;
 	}
 	
-	
-	public void storeStock() {
+	@Override
+	public void store() {
 
 		Map<Class<? extends Material>, List<Map<String, Object>>> description 
 					= new HashMap<Class<? extends Material>, List<Map<String, Object>>>();
@@ -101,8 +102,9 @@ public class StockManager {
 		ConfigXML.store(description, KEY_STOCK_FILE, KEY_STOCK_VERSION);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
-	public void loadStock() {
+	public void load() {
 		Material.resetIdCounter();
 		Map<Class<? extends Material>, List<Map<String, Object>>> stockDescription 
 					= new HashMap<Class<? extends Material>, List<Map<String, Object>>>();

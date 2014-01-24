@@ -3,7 +3,6 @@ package model.material;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +12,7 @@ import model.util.ConfigXML;
 /**
  * This class will provides services to manage the stock.
  */
+
 public class StockManager {
 
 	private static final String KEY_STOCK_FILE = "stockDescription.xml";
@@ -42,6 +42,7 @@ public class StockManager {
 		this.addProduct(this.restoreProduct(classe, materialDescription));
 	}
 
+	@SuppressWarnings("unchecked")
 	public void addProduct(Map<String, Object> materialDescription) {
 		this.addProduct((Class<?extends Material>)materialDescription.get("class"), materialDescription);
 	}
@@ -100,6 +101,7 @@ public class StockManager {
 		ConfigXML.store(description, KEY_STOCK_FILE, KEY_STOCK_VERSION);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void loadStock() {
 		Material.resetIdCounter();
 		Map<Class<? extends Material>, List<Map<String, Object>>> stockDescription 

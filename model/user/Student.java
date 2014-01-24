@@ -7,7 +7,7 @@
 package model.user;
 
 
-public class Student extends Borrower implements IUser {
+public class Student extends User implements IUser {
 
 	/**
 	 * Constructor using the following parameters :

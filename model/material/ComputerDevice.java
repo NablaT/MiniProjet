@@ -3,25 +3,30 @@ package model.material;
 import java.util.HashMap;
 import java.util.Map;
 
+import model.State;
+import model.user.User;
+
 abstract class ComputerDevice extends Material {
 
 	private int screenSize;
 	private ScreenType screenType;
-	
+
 	public ComputerDevice() {
 		super();
 	}
-	
-	public ComputerDevice(String name, String brandName, int screenSize, ScreenType screenType) {
-		super(name, brandName);
+
+	public ComputerDevice(String name, String brandName, int screenSize,
+			ScreenType screenType,
+			State state,
+			Map<String, Map<Class<? extends User>, Integer>> limitsDescription) {
+		super(name, brandName, state, limitsDescription);
 		this.setScreenSize(screenSize);
 		this.setScreenType(screenType);
 	}
-	
+
 	public ComputerDevice(Map<String, Object> description) {
 		super(description);
 	}
-
 
 	/**
 	 * @return the screenSize
@@ -56,25 +61,26 @@ abstract class ComputerDevice extends Material {
 	@Override
 	public void restore(Map<String, Object> description) {
 		super.restore(description);
-		
-		this.screenSize = (Integer)description.get("screenSize");
-		this.screenType = (ScreenType)description.get("screenType");
+
+		this.screenSize = (Integer) description.get("screenSize");
+		this.screenType = (ScreenType) description.get("screenType");
 	}
-	
+
 	@Override
 	public Map<String, Object> getDescription() {
 		Map<String, Object> result = new HashMap<String, Object>();
-		
+
 		result = super.getDescription();
 		result.put("screenSize", this.screenSize);
 		result.put("screenType", this.screenType);
 
 		return result;
 	}
-	
+
 	@Override
 	public String toString() {
-		return super.toString() + " - Type : phone - " + this.screenSize + "\" (" + this.screenType + ")";
+		return super.toString() + " - Type : phone - " + this.screenSize
+				+ "\" (" + this.screenType + ")";
 	}
 
 	@Override

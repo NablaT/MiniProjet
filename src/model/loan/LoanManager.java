@@ -508,5 +508,4 @@ public class LoanManager implements Manager {
 		
 		return result;
 	}
-	
 }

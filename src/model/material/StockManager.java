@@ -19,22 +19,20 @@ public class StockManager implements Manager {
 	private static final String KEY_STOCK_FILE = "stockDescription";
 	private static final String KEY_STOCK_VERSION = "0.0.0";
 
-	private Map<Class<? extends Material>, List<Material>> stockDescription = new HashMap<Class<? extends Material>, List<Material>>();
+	private Map<Class<?extends Material>,List<Material>> stockDescription 
+				= new HashMap<Class<?extends Material>, List<Material>>();
 
-	public StockManager() {
-	}
-
+	public StockManager() { }
+	
 	public void addProduct(Material material) {
-
-		if (this.isPresent(material.getId())) {
-			throw new IllegalArgumentException(
-					"The id specified is already used (" + material.getId()
-							+ ")");
+		
+		if(this.isPresent(material.getId())) {
+			throw new IllegalArgumentException("The id specified is already used (" + material.getId() + ")");
 		}
-
+		
 		List<Material> listMaterial = new ArrayList<Material>();
-
-		if (this.stockDescription.containsKey(material.getClass())) {
+		
+		if(this.stockDescription.containsKey(material.getClass())) {
 			listMaterial = this.stockDescription.get(material.getClass());
 		}
 
@@ -42,70 +40,54 @@ public class StockManager implements Manager {
 
 		this.stockDescription.put(material.getClass(), listMaterial);
 	}
-
-	public void addProduct(Class<? extends Material> classe,
-			Map<String, Object> materialDescription) {
+	
+	public void addProduct(Class<?extends Material> classe, Map<String, Object> materialDescription) {
 		this.addProduct(this.restoreProduct(classe, materialDescription));
 	}
 
 	@SuppressWarnings("unchecked")
 	public void addProduct(Map<String, Object> materialDescription) {
-		this.addProduct(
-				(Class<? extends Material>) materialDescription.get("class"),
-				materialDescription);
+		this.addProduct((Class<?extends Material>)materialDescription.get("class"), materialDescription);
 	}
-
+	
 	public void removeProduct(Material material) throws Exception {
-		if (!this.stockDescription.get(material.getClass()).contains(material)) {
+		if(!this.stockDescription.get(material.getClass()).contains(material)) {
 			throw new Exception("The specified material can't be found");
 		}
-
+		
 		this.stockDescription.get(material.getClass()).remove(material);
 	}
 
 	public int getNumberOf(Class<? extends Material> classe) {
-		if (!this.stockDescription.containsKey(classe)) {
+		if(!this.stockDescription.containsKey(classe)) {
 			return 0;
 		}
-
+		
 		return this.stockDescription.get(classe).size();
 	}
-
+	
 	public Material getMaterial(String id) {
-
+	
 		Material result = null;
-
-		for (Material m : this.stockToList()) {
-			if (m.getId().equals(id)) {
+		
+		for(Material m : this.stockToList()) {
+			if(m.getId().equals(id)) {
 				result = m;
 			}
 		}
-
-		return result;
+		
+		return result;		
 	}
 
 	public boolean isPresent(String id) {
 		return getMaterial(id) != null;
 	}
-
-	/**
-	 * This method returns a material description: its brand and its version.
-	 * 
-	 * @param m
-	 * @return
-	 */
-	public String getDescription(Material m) {
-		return (m.getBrandName() + m.getName());
-	}
-
-	public Map<Class<? extends Material>, List<Material>> getStockDescription() {
-		return this.stockDescription;
-	}
-
+	
 	@Override
 	public void store() {
 
-		Map<Class<? extends Material>, List<Map<String, Object>>> description = new HashMap<Class<? extends Material>, List<Map<String, Object>>>();
+		Map<Class<? extends Material>, List<Map<String, Object>>> description 
+					= new HashMap<Class<? extends Material>, List<Map<String, Object>>>();
 
 		for (Material m : this.stockToList()) {
 			Class<? extends Material> c = m.getClass();
@@ -126,27 +108,25 @@ public class StockManager implements Manager {
 	@SuppressWarnings("unchecked")
 	public void load() {
 		Material.resetIdCounter();
-		Map<Class<? extends Material>, List<Map<String, Object>>> stockDescription = new HashMap<Class<? extends Material>, List<Map<String, Object>>>();
-
-		stockDescription = (Map<Class<? extends Material>, List<Map<String, Object>>>) ConfigXML
-				.load(KEY_STOCK_FILE, KEY_STOCK_VERSION);
+		Map<Class<? extends Material>, List<Map<String, Object>>> stockDescription 
+					= new HashMap<Class<? extends Material>, List<Map<String, Object>>>();
+		
+		stockDescription = (Map<Class<? extends Material>, List<Map<String, Object>>>)
+					ConfigXML.load(KEY_STOCK_FILE, KEY_STOCK_VERSION);
 
 		this.restore(stockDescription);
 	}
 
-	private void restore(
-			Map<Class<? extends Material>, List<Map<String, Object>>> stockDescription) {
-
-		for (Class<? extends Material> key : stockDescription.keySet()) {
-			for (Map<String, Object> currentProductDescription : stockDescription
-					.get(key)) {
+	private void restore(Map<Class<? extends Material>, List<Map<String, Object>>>stockDescription) {
+		
+		for(Class<?extends Material> key : stockDescription.keySet()) {
+			for(Map<String, Object> currentProductDescription : stockDescription.get(key)) {
 				this.addProduct(restoreProduct(key, currentProductDescription));
 			}
 		}
 	}
 
-	public Material restoreProduct(Class<? extends Material> classe,
-			Map<String, Object> description) {
+	public Material restoreProduct(Class<?extends Material> classe, Map<String, Object> description) {
 		Constructor<?> constructeur = null;
 		try {
 			constructeur = classe.getConstructor();
@@ -156,28 +136,28 @@ public class StockManager implements Manager {
 		Material instance = null;
 
 		try {
-			instance = (Material) constructeur.newInstance(new Object[] {});
+			instance = (Material)constructeur.newInstance(new Object[] {});
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
-
+		
 		instance.restore(description);
 		return instance;
 	}
-
+	
 	public List<Material> stockToList() {
 		List<Material> result = new ArrayList<Material>();
-
-		for (List<Material> currentList : this.stockDescription.values()) {
-			for (Material m : currentList) {
+		
+		for(List<Material> currentList : this.stockDescription.values()) {
+			for(Material m : currentList) {
 				result.add(m);
 			}
 		}
-
+		
 		return result;
 	}
-
+	
 	public String displayStock() {
 		String result = "";
 
@@ -187,10 +167,9 @@ public class StockManager implements Manager {
 
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
-		return this.stockDescription
-				.equals(((StockManager) o).stockDescription);
+		return this.stockDescription.equals(((StockManager)o).stockDescription);
 	}
 }

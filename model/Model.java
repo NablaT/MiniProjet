@@ -59,6 +59,10 @@ public class Model {
 	
 	}
 	
+	public void test(){
+		
+	}
+	
 	public int getCopyLimitation(Class<?extends IUser> classe, String materialID) {
 		return this.sm.getMaterial(materialID).getCopyLimitation(classe);
 	}

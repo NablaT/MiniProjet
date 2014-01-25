@@ -32,23 +32,23 @@ public class Model {
 		//LoanGenerator.storeLoansDescription(lm, um);
 		this.lm.load();
 		
-		System.out.println("\n====================================== Stock Initial ========================================\n");
+		System.out.println(PieceOfDisplay.stockInitial);
 		System.out.println(sm.displayStock());
-		System.out.println("=============================================================================================\n");
+		System.out.println(PieceOfDisplay.someEquals);
 	
 		
-		System.out.println("\n=================================== Comptes Utilisateurs ====================================\n");
+		System.out.println(PieceOfDisplay.userAccounts);
 		System.out.println(um.displayUsersAccounts());
-		System.out.println("==============================================================================================\n");
+		System.out.println(PieceOfDisplay.someEquals);
 	
 	
-		System.out.println("\n=================================== Cours disponibles ====================================\n");
+		System.out.println(PieceOfDisplay.availableCourses);
 		System.out.println(cm.displayCourses());
-		System.out.println("==============================================================================================\n");
+		System.out.println(PieceOfDisplay.someEquals);
 	
-		System.out.println("\n=================================== Emprunts non rendus ====================================\n");
+		System.out.println(PieceOfDisplay.notReturnLoans);
 		System.out.println(lm.displayUnreturnedLoans());
-		System.out.println("==============================================================================================\n");
+		System.out.println(PieceOfDisplay.someEquals);
 	
 	}
 	

@@ -1,0 +1,85 @@
+<map>
+  <entry>
+    <string>borrow_askMaterialID_fail_quantity2</string>
+    <string>can not be borrowed - not enough items</string>
+  </entry>
+  <entry>
+    <string>login_fail</string>
+    <string>Connection fail - wrong id</string>
+  </entry>
+  <entry>
+    <string>borrow_askDate</string>
+    <string>Please enter when you will return the material (use : dd/mm/yyyy)</string>
+  </entry>
+  <entry>
+    <string>borrow_askMaterialID_fail</string>
+    <string>Error, use : materialID1 quantity1 [,materialID2 quantity2 ...]</string>
+  </entry>
+  <entry>
+    <string>borrow_askMaterialID_fail_quantity1</string>
+    <string>The material #</string>
+  </entry>
+  <entry>
+    <string>gaveBack_askID</string>
+    <string>Please select the id of the loan :</string>
+  </entry>
+  <entry>
+    <string>gaveBack_askMaterialID_error</string>
+    <string>The material ID doesn&apos;t match with specified loan</string>
+  </entry>
+  <entry>
+    <string>borrow_askMaterialID_success</string>
+    <string>Material added to the loan</string>
+  </entry>
+  <entry>
+    <string>actionType</string>
+    <string>Please select an action :</string>
+  </entry>
+  <entry>
+    <string>userType</string>
+    <string>Please select a category :</string>
+  </entry>
+  <entry>
+    <string>gaveBack_askID_error</string>
+    <string>The loan id specified can not be found</string>
+  </entry>
+  <entry>
+    <string>borrow_askMaterialID</string>
+    <string>Please enter the list material_id quantity desired : materialID1 quantity1 [,materialID2 quantity2 ...]</string>
+  </entry>
+  <entry>
+    <string>login_success</string>
+    <string>Connection done</string>
+  </entry>
+  <entry>
+    <string>borrow_askCourseID_fail</string>
+    <string>Error, please select a course from the list below :</string>
+  </entry>
+  <entry>
+    <string>gaveBack_askMaterialID</string>
+    <string>Please select the id (or list) of the material :</string>
+  </entry>
+  <entry>
+    <string>login</string>
+    <string>Please enter your id : </string>
+  </entry>
+  <entry>
+    <string>login_loading</string>
+    <string>Connecting ...</string>
+  </entry>
+  <entry>
+    <string>borrow_askDates_fail</string>
+    <string>Error, use : jj/mm/aaaa jj/mm/aaaa</string>
+  </entry>
+  <entry>
+    <string>welcome</string>
+    <string>======================================================
+		Welcome on eLoan App !		v.1.0
+======================================================
+</string>
+  </entry>
+  <entry>
+    <string>borrow_askCourseID</string>
+    <string>Please select a course : </string>
+  </entry>
+</map>

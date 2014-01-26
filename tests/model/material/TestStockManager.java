@@ -1,9 +1,16 @@
 package model.material;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import model.State;
+import model.user.IUser;
+import model.user.Student;
+import model.user.Teacher;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,7 +34,29 @@ public class TestStockManager {
 		phoneDescription.put("brandName", "Wiko");
 		phoneDescription.put("screenSize", 5);
 		phoneDescription.put("screenType", ScreenType.RESISTIV);
-		phoneDescription.put("version", AndroidVersion.ECLAIR );
+		phoneDescription.put("version", AndroidPhoneVersion.ECLAIR );
+		phoneDescription.put("state", State.UNUSED );
+		
+		Map<String, Map<Class<?extends IUser>, Integer>> limitsDescription 
+ 		= new HashMap<String, Map<Class<?extends IUser>, Integer>>();		
+
+		Map<Class<?extends IUser>, Integer> copyLimitsForFirstPhone = new HashMap<Class<?extends IUser>, Integer>();
+		copyLimitsForFirstPhone.put(Student.class, new Integer(2));
+		copyLimitsForFirstPhone.put(Teacher.class, new Integer(10));
+				
+		Map<Class<?extends IUser>, Integer> delayLimitsForFirstPhone = new HashMap<Class<?extends IUser>, Integer>();
+		delayLimitsForFirstPhone.put(Student.class, new Integer(2));
+		delayLimitsForFirstPhone.put(Teacher.class, new Integer(14));		
+		
+		Map<Class<?extends IUser>, Integer> durationLimitsForFirstPhone = new HashMap<Class<?extends IUser>, Integer>();
+		durationLimitsForFirstPhone.put(Student.class, new Integer(14));
+		durationLimitsForFirstPhone.put(Teacher.class, new Integer(30));
+		
+		limitsDescription.put(Material.KEY_LIMIT_COPY, copyLimitsForFirstPhone);
+		limitsDescription.put(Material.KEY_LIMIT_DELAY, delayLimitsForFirstPhone);
+		limitsDescription.put(Material.KEY_LIMIT_DURATION, durationLimitsForFirstPhone);
+		
+		phoneDescription.put("limits", limitsDescription);
 		
 		firstPhone = new AndroidPhone(phoneDescription);
 
@@ -36,7 +65,7 @@ public class TestStockManager {
 		secondPhone = new AndroidPhone(phoneDescription);
 		
 		thirdPhone = new AndroidPhone("Galaxy S4", "Samsung", 5,
-				ScreenType.CAPACITIV, AndroidVersion.CUPCAKE);
+				ScreenType.CAPACITIV, AndroidPhoneVersion.CUPCAKE, State.DAMAGED, limitsDescription);
 	}
 
 	@Test
@@ -107,10 +136,10 @@ public class TestStockManager {
 	
 	@Test
 	public void testStoreLoadAndRestoreStock() {
-		sm.storeStock();
+		sm.store();
 		
 		StockManager clone = new StockManager();
-		clone.loadStock();
+		clone.load();
 		
 		assertTrue(sm.equals(clone));
 	}

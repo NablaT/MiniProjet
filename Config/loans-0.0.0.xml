@@ -4,43 +4,9 @@
     <list>
       <map>
         <entry>
-          <string>course</string>
-          <map>
-            <entry>
-              <string>id</string>
-              <int>1</int>
-            </entry>
-            <entry>
-              <string>productsAllowed</string>
-              <list>
-                <string>CW22</string>
-                <string>CW99</string>
-              </list>
-            </entry>
-            <entry>
-              <string>startDate</string>
-              <gregorian-calendar>
-                <time>1382304102430</time>
-                <timezone>Europe/Paris</timezone>
-              </gregorian-calendar>
-            </entry>
-            <entry>
-              <string>name</string>
-              <string>SSII</string>
-            </entry>
-            <entry>
-              <string>endDate</string>
-              <gregorian-calendar>
-                <time>1382304102430</time>
-                <timezone>Europe/Paris</timezone>
-              </gregorian-calendar>
-            </entry>
-          </map>
-        </entry>
-        <entry>
           <string>startDate</string>
           <gregorian-calendar>
-            <time>1393798902430</time>
+            <time>1393746869473</time>
             <timezone>Europe/Paris</timezone>
           </gregorian-calendar>
         </entry>
@@ -58,9 +24,13 @@
         <entry>
           <string>endDate</string>
           <gregorian-calendar>
-            <time>1394922102430</time>
+            <time>1394870069473</time>
             <timezone>Europe/Paris</timezone>
           </gregorian-calendar>
+        </entry>
+        <entry>
+          <string>courseId</string>
+          <int>1</int>
         </entry>
         <entry>
           <string>user</string>
@@ -90,7 +60,7 @@
         <entry>
           <string>askDate</string>
           <gregorian-calendar>
-            <time>1392502902430</time>
+            <time>1392450869473</time>
             <timezone>Europe/Paris</timezone>
           </gregorian-calendar>
         </entry>

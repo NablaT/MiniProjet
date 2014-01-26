@@ -8,6 +8,12 @@ import model.user.IUser;
 import model.user.Student;
 import model.user.Teacher;
 
+/**
+ * This class will generates a set of material representig some devices
+ * 
+ * @author Benni Benjamin
+ * @since v.1.0.0
+ */
 public class StockGenerator {
 
 	public static void storeStockDescription(StockManager sm) {
@@ -21,8 +27,6 @@ public class StockGenerator {
 		Map<Class<? extends IUser>, Integer> delayLimitation = new HashMap<Class<? extends IUser>, Integer>();
 		Map<Class<? extends IUser>, Integer> durationLimitation = new HashMap<Class<? extends IUser>, Integer>();
 
-		
-		
 		copyLimitation.put(Student.class, new Integer(2));
 		copyLimitation.put(Teacher.class, new Integer(10));
 
@@ -33,18 +37,35 @@ public class StockGenerator {
 		durationLimitation.put(Teacher.class, new Integer(30));
 
 		limitsDescription.put(Material.KEY_LIMIT_COPY, copyLimitation);
-		limitsDescription.put(Material.KEY_LIMIT_DELAY,
-				delayLimitation);
-		limitsDescription.put(Material.KEY_LIMIT_DURATION,
-				durationLimitation);
+		limitsDescription.put(Material.KEY_LIMIT_DELAY, delayLimitation);
+		limitsDescription.put(Material.KEY_LIMIT_DURATION, durationLimitation);
 
-		
 		firstPhone = new AndroidPhone("Cink Five", "Wiko", 5,
-				ScreenType.CAPACITIV, AndroidPhoneVersion.ICE_CREAM_SANDWICH, State.GOOD,
+				ScreenType.CAPACITIV, AndroidPhoneVersion.ICE_CREAM_SANDWICH,
+				State.GOOD, limitsDescription);
+
+		limitsDescription = new HashMap<String, Map<Class<? extends IUser>, Integer>>();
+
+		copyLimitation = new HashMap<Class<? extends IUser>, Integer>();
+		copyLimitation.put(Student.class, new Integer(1));
+		copyLimitation.put(Teacher.class, new Integer(30));
+
+		delayLimitation = new HashMap<Class<? extends IUser>, Integer>();
+		delayLimitation.put(Student.class, new Integer(7));
+		delayLimitation.put(Teacher.class, new Integer(15));
+
+		durationLimitation = new HashMap<Class<? extends IUser>, Integer>();
+		durationLimitation.put(Student.class, new Integer(7));
+		durationLimitation.put(Teacher.class, new Integer(30));
+
+		limitsDescription.put(Material.KEY_LIMIT_COPY, copyLimitation);
+		limitsDescription.put(Material.KEY_LIMIT_DELAY, delayLimitation);
+		limitsDescription.put(Material.KEY_LIMIT_DURATION, durationLimitation);
+
+		secondPhone = new IOSPhone("IPhone 4S", "Apple", 4,
+				ScreenType.CAPACITIV, IOSVersion.IOS6, State.UNUSED,
 				limitsDescription);
 
-		
-		
 		limitsDescription = new HashMap<String, Map<Class<? extends IUser>, Integer>>();
 
 		copyLimitation = new HashMap<Class<? extends IUser>, Integer>();
@@ -60,42 +81,17 @@ public class StockGenerator {
 		durationLimitation.put(Teacher.class, new Integer(30));
 
 		limitsDescription.put(Material.KEY_LIMIT_COPY, copyLimitation);
-		limitsDescription.put(Material.KEY_LIMIT_DELAY,
-				delayLimitation);
-		limitsDescription.put(Material.KEY_LIMIT_DURATION,
-				durationLimitation);
-		
-		secondPhone = new IOSPhone("IPhone 4S", "Apple", 4, ScreenType.CAPACITIV, IOSVersion.IOS6, State.UNUSED, limitsDescription);
-	
-	
-	
-		limitsDescription = new HashMap<String, Map<Class<? extends IUser>, Integer>>();
+		limitsDescription.put(Material.KEY_LIMIT_DELAY, delayLimitation);
+		limitsDescription.put(Material.KEY_LIMIT_DURATION, durationLimitation);
 
-		copyLimitation = new HashMap<Class<? extends IUser>, Integer>();
-		copyLimitation.put(Student.class, new Integer(1));
-		copyLimitation.put(Teacher.class, new Integer(30));
+		firstTablet = new AndroidTablet("Galaxy Tab 2", "Samsung", 10,
+				ScreenType.CAPACITIV, AndroidTabletVersion.JELLY_BEAN,
+				State.UNUSED, limitsDescription);
 
-		delayLimitation = new HashMap<Class<? extends IUser>, Integer>();
-		delayLimitation.put(Student.class, new Integer(7));
-		delayLimitation.put(Teacher.class, new Integer(15));
-
-		durationLimitation = new HashMap<Class<? extends IUser>, Integer>();
-		durationLimitation.put(Student.class, new Integer(7));
-		durationLimitation.put(Teacher.class, new Integer(30));
-
-		limitsDescription.put(Material.KEY_LIMIT_COPY, copyLimitation);
-		limitsDescription.put(Material.KEY_LIMIT_DELAY,
-				delayLimitation);
-		limitsDescription.put(Material.KEY_LIMIT_DURATION,
-				durationLimitation);
-		
-		firstTablet = new AndroidTablet("Galaxy Tab 2", "Samsung", 10, ScreenType.CAPACITIV, AndroidTabletVersion.JELLY_BEAN, State.UNUSED, limitsDescription);
-	
-		
 		sm.addProduct(firstPhone);
 		sm.addProduct(secondPhone);
 		sm.addProduct(firstTablet);
-		
+
 		sm.store();
 	}
 }

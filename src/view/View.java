@@ -203,7 +203,7 @@ public class View {
 	}
 
 	public void askStartDate() {
-		System.out.println(this.texts.get("borrow_askDate"));
+		System.out.println(this.texts.get("borrow_askStartDate"));
 
 		String[] rep = this.getAnswer().split("/");
 
@@ -240,7 +240,7 @@ public class View {
 	}
 	
 	public void askEndDate() {
-		System.out.println(this.texts.get("borrow_askDate"));
+		System.out.println(this.texts.get("borrow_askEndDate"));
 
 		String[] rep = this.getAnswer().split("/");
 
@@ -412,8 +412,14 @@ public class View {
 				"Error, please select a course from the list below :");
 
 		description
-				.put("borrow_askDate",
+				.put("borrow_askStartDate",
+						"Please enter when you will take the material (use : dd/mm/yyyy)");
+		
+
+		description
+				.put("borrow_askEndDate",
 						"Please enter when you will return the material (use : dd/mm/yyyy)");
+		
 		description.put("borrow_askDates_fail",
 				"Error, use : jj/mm/aaaa jj/mm/aaaa");
 

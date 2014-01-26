@@ -8,8 +8,11 @@ import model.State;
 import model.user.IUser;
 
 /**
- * This superclass represents any material in the app. It is abstract because
- * you can't create an instance of a Material.
+ * This superclass represents any material in the app<br>
+ * It is abstract because you can't create an instance of a Material.
+ * 
+ * @author Benni Benjamin
+ * @since v.0.0.0
  */
 
 public abstract class Material {

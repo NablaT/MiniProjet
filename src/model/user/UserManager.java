@@ -39,7 +39,6 @@ public class UserManager implements Manager {
 	 * teachers and students (our two types of borrowers).
 	 * 
 	 * @param usersDescription
-	 * @author boinaud
 	 */
 	public void restore(
 			Map<Class<? extends IUser>, List<Map<String, Object>>> usersAccountsDescription) {
@@ -143,20 +142,20 @@ public class UserManager implements Manager {
 			e.printStackTrace();
 		}
 	}
-	
-	public  Class<? extends IUser> getCurrentSessionType(){
-		return this.currentSessionType; 
+
+	public Class<? extends IUser> getCurrentSessionType() {
+		return this.currentSessionType;
 	}
-	
+
 	public IUser getCurrentSessionUser() {
 		return this.currentSession;
 	}
-	
+
 	public boolean setCurrentSession(IUser u) {
-		if(!u.getClass().equals(currentSessionType)) {
+		if (!u.getClass().equals(currentSessionType)) {
 			return false;
 		}
-		
+
 		this.currentSession = u;
 		System.out.println("Current User : " + u);
 		return true;
@@ -177,12 +176,13 @@ public class UserManager implements Manager {
 
 	/**
 	 * Method used in JUnit test
+	 * 
 	 * @param user
 	 */
-	public void setCurrentSessionReplace(IUser user){
-		this.currentSession=user; 
+	public void setCurrentSessionReplace(IUser user) {
+		this.currentSession = user;
 	}
-	
+
 	/**
 	 * Method used to find a user in listOfUserAccount, returns a Borrower.
 	 * 
@@ -220,7 +220,7 @@ public class UserManager implements Manager {
 	 * null.
 	 * 
 	 * @param potentialID
-	 * @return
+	 * @return the user object specified by the id
 	 */
 	public IUser connectUser(String potentialID) {
 

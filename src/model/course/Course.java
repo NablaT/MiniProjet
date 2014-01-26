@@ -15,13 +15,13 @@ public class Course {
 	private List<String> productsAllowed = new ArrayList<String>();
 	private int id;
 
-	public Course() { }
-	
+	public Course() {
+	}
+
 	public Course(Map<String, Object> courseDescription) {
 		this.restore(courseDescription);
 	}
-	
-	
+
 	/**
 	 * @return the date
 	 */
@@ -70,9 +70,6 @@ public class Course {
 
 	/**
 	 * Returns a Map<String, Object> built by the object's variable's values.
-	 * 
-	 * @author benni
-	 * @version 12/06/13
 	 */
 	public Map<String, Object> getDescription() {
 		Map<String, Object> courseDescription = new HashMap<String, Object>();
@@ -97,8 +94,8 @@ public class Course {
 	/**
 	 * Will reset variable's values from the object's description
 	 * 
-	 * @author benni
 	 * @param courseDescription
+	 *            description equals at {@link Course#getDescription()}
 	 */
 	@SuppressWarnings("unchecked")
 	public void restore(Map<String, Object> courseDescription) {
@@ -106,16 +103,18 @@ public class Course {
 		this.startDate = (Calendar) courseDescription.get("startDate");
 		this.endDate = (Calendar) courseDescription.get("endDate");
 		this.name = (String) courseDescription.get("name");
-		this.productsAllowed  = (List<String>) courseDescription.get("productsAllowed");
+		this.productsAllowed = (List<String>) courseDescription
+				.get("productsAllowed");
 	}
 
 	@Override
 	public String toString() {
-		  
-        DateFormat ndf = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
-        String startDateStr = ndf.format(startDate.getTime());
-        String endDateStr = ndf.format(endDate.getTime());
-		
-		return "\t[#" + id + "]\t" + name + " \t(" + startDateStr + " --> " + endDateStr + ")";
+
+		DateFormat ndf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		String startDateStr = ndf.format(startDate.getTime());
+		String endDateStr = ndf.format(endDate.getTime());
+
+		return "\t[#" + id + "]\t" + name + " \t(" + startDateStr + " --> "
+				+ endDateStr + ")";
 	}
 }

@@ -11,7 +11,9 @@ import model.Manager;
 import model.util.ConfigXML;
 
 /**
- * This class will provides services to manage the stock.
+ * This class will provides services to manage the stock<br>
+ * @author Benni Benjamin
+ * @since v.1.0.0
  */
 
 public class StockManager implements Manager {

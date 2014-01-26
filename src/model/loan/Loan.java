@@ -158,7 +158,7 @@ public class Loan {
 	 * à 0 le borrower doit rendre ce qu'il a emprunté aujourd'hui.
 	 * 
 	 * @param calendar_currentDate
-	 * @return
+	 * @return number of delay
 	 */
 	public double getNumberOfDayOfDelay(Calendar calendar_currentDate) {
 		return this.endDate.getTimeInMillis()
@@ -169,7 +169,7 @@ public class Loan {
 	 * This method returns true if the loan is overdue. Else false.
 	 * 
 	 * @param calendar_currentDate
-	 * @return
+	 * @return true if overdue - false otherwise
 	 */
 	public boolean isOverdue(Calendar calendar_currentDate) {
 		return (this.getNumberOfDayOfDelay(calendar_currentDate) < 0);
@@ -180,7 +180,7 @@ public class Loan {
 	 * identical.
 	 * 
 	 * @param loan
-	 * @return
+	 * @return true f equals - false otherwise
 	 */
 	public boolean equals(Loan loan) {
 		return (this.material.equals(loan.getListOfMaterials())
@@ -199,7 +199,7 @@ public class Loan {
 	 * 
 	 * @param c1
 	 * @param c2
-	 * @return
+	 * @return true if the same date - false otherwise
 	 */
 	private boolean sameDate(Calendar c1, Calendar c2) {
 		return (c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR) && c1
@@ -230,8 +230,6 @@ public class Loan {
 	@SuppressWarnings("unchecked")
 	public void restore(Map<String, Object> description) {
 
-		System.out.println(description);
-		
 		Calendar startDate = (Calendar) description.get("startDate");
 		Calendar endDate = (Calendar) description.get("endDate");
 		Calendar askDate = (Calendar) description.get("askDate");

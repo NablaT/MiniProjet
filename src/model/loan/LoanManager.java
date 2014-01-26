@@ -58,7 +58,7 @@ public class LoanManager implements Manager {
 	 * askForALoan.
 	 * 
 	 * @param loan
-	 * @return
+	 * @return true if can make a loan - false otherwise
 	 */
 
 	public boolean makeALoan(Loan loan) {
@@ -106,7 +106,7 @@ public class LoanManager implements Manager {
 	 * 
 	 * @param user
 	 * @param loan
-	 * @return
+	 * @return true if can borrow - false otherwise
 	 */
 
 	private boolean canBorrow(Loan loan) {
@@ -268,10 +268,10 @@ public class LoanManager implements Manager {
 		// Run through the material contained in the loan
 		for (String materialID : loan.getListOfMaterials()) {
 
-			
-					// Check if the current material is contained in the list
+			// Check if the current material is contained in the list
 			// of allowed product in the loan'course
-			if (!this.model.getAllowedProductsForSpecifiedCourse(loan.getCourse()).contains(materialID)) {
+			if (!this.model.getAllowedProductsForSpecifiedCourse(
+					loan.getCourse()).contains(materialID)) {
 				return false;
 			}
 		}
@@ -342,7 +342,7 @@ public class LoanManager implements Manager {
 	 * This method returns the material list which can't be loaning.
 	 * 
 	 * @param loan
-	 * @return
+	 * @return List of loan
 	 */
 
 	public ArrayList<Loan> saveBadLoan(Loan loan) {
@@ -398,7 +398,7 @@ public class LoanManager implements Manager {
 	 * This method allows to find a Loan thanks to a material list.
 	 * 
 	 * @param material
-	 * @return
+	 * @return loan object
 	 */
 
 	public Loan returnLoan(ArrayList<Material> material) {
@@ -434,6 +434,18 @@ public class LoanManager implements Manager {
 		return this.unreturnedLoans;
 	}
 
+	public int getNumberOfOldLoansFor(String userID) {
+		int result = 0;
+
+		for (Loan l : this.oldLoans) {
+			if (l.getUser().getID().equals(userID)) {
+				result++;
+			}
+		}
+
+		return result;
+	}
+
 	public void setOldLoans(ArrayList<Loan> oldLoans) {
 		this.oldLoans = oldLoans;
 	}
@@ -442,8 +454,7 @@ public class LoanManager implements Manager {
 		return this.oldLoans;
 	}
 
-	// TODO DELETE THIS TOKENS AFTER TESTS
-	public void addLoan(Loan l) {
+	public void addLoan(final Loan l) {
 		this.unreturnedLoans.add(l);
 	}
 
@@ -451,10 +462,10 @@ public class LoanManager implements Manager {
 			Calendar endDate) {
 
 		for (Loan l : this.unreturnedLoans) {
-			if ((l.getStartDate().after(startDate) 
-					&& l.getStartDate().before(endDate))
-					|| (l.getEndDate().after(startDate)
-					&& l.getEndDate().before(endDate))
+			if ((l.getStartDate().after(startDate) && l.getStartDate().before(
+					endDate))
+					|| (l.getEndDate().after(startDate) && l.getEndDate()
+							.before(endDate))
 					&& l.getListOfMaterials().contains(materialID)) {
 				return true;
 			}
@@ -490,7 +501,7 @@ public class LoanManager implements Manager {
 
 		description = (Map<String, Object>) ConfigXML.load(KEY_LOAN_FILE,
 				KEY_LOAN_VERSION);
-		
+
 		this.restore(description);
 	}
 

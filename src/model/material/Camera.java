@@ -6,6 +6,11 @@ import java.util.Map;
 import model.State;
 import model.user.IUser;
 
+/**
+ * This class represents a camera
+ * @author Benni Benjamin
+ * @since v.0.0.0
+ */
 class Camera extends Material {
 
 	public Camera(String name, String brandName, State state,

@@ -6,7 +6,7 @@
         <entry>
           <string>startDate</string>
           <gregorian-calendar>
-            <time>1393746869473</time>
+            <time>1393771334503</time>
             <timezone>Europe/Paris</timezone>
           </gregorian-calendar>
         </entry>
@@ -24,7 +24,7 @@
         <entry>
           <string>endDate</string>
           <gregorian-calendar>
-            <time>1394870069473</time>
+            <time>1394894534503</time>
             <timezone>Europe/Paris</timezone>
           </gregorian-calendar>
         </entry>
@@ -37,22 +37,21 @@
           <map>
             <entry>
               <string>id</string>
-              <string>bj103876</string>
+              <string>df105266</string>
             </entry>
             <entry>
               <string>name</string>
-              <string>Bond</string>
+              <string>Franck</string>
             </entry>
             <entry>
               <string>class</string>
-              <java-class>model.user.Teacher</java-class>
+              <java-class>model.user.Student</java-class>
             </entry>
             <entry>
               <string>listCourse</string>
               <list>
                 <int>1</int>
                 <int>2</int>
-                <int>3</int>
               </list>
             </entry>
           </map>
@@ -60,7 +59,7 @@
         <entry>
           <string>askDate</string>
           <gregorian-calendar>
-            <time>1392450869473</time>
+            <time>1392475334503</time>
             <timezone>Europe/Paris</timezone>
           </gregorian-calendar>
         </entry>
@@ -74,6 +73,76 @@
         <entry>
           <string>endState</string>
           <list/>
+        </entry>
+      </map>
+      <map>
+        <entry>
+          <string>startDate</string>
+          <gregorian-calendar>
+            <time>1382103799811</time>
+            <timezone>Europe/Paris</timezone>
+          </gregorian-calendar>
+        </entry>
+        <entry>
+          <string>gaveBack</string>
+          <boolean>false</boolean>
+        </entry>
+        <entry>
+          <string>startState</string>
+          <list>
+            <model.State>UNUSED</model.State>
+          </list>
+        </entry>
+        <entry>
+          <string>endDate</string>
+          <gregorian-calendar>
+            <time>1382708602716</time>
+            <timezone>Europe/Paris</timezone>
+          </gregorian-calendar>
+        </entry>
+        <entry>
+          <string>courseId</string>
+          <int>1</int>
+        </entry>
+        <entry>
+          <string>user</string>
+          <map>
+            <entry>
+              <string>id</string>
+              <string>bb102748</string>
+            </entry>
+            <entry>
+              <string>name</string>
+              <string>Benjamin</string>
+            </entry>
+            <entry>
+              <string>class</string>
+              <java-class>model.user.Student</java-class>
+            </entry>
+            <entry>
+              <string>listCourse</string>
+              <list>
+                <int>1</int>
+              </list>
+            </entry>
+          </map>
+        </entry>
+        <entry>
+          <string>askDate</string>
+          <gregorian-calendar>
+            <time>1382103789402</time>
+            <timezone>Europe/Paris</timezone>
+          </gregorian-calendar>
+        </entry>
+        <entry>
+          <string>material</string>
+          <list>
+            <string>CW99</string>
+          </list>
+        </entry>
+        <entry>
+          <string>endState</string>
+          <null/>
         </entry>
       </map>
     </list>

@@ -2,7 +2,7 @@ package model;
 
 /**
  * Interface overridden by all manager in the app
- * @author user
+ * @author Benni Benjamin
  *
  */
 public interface Manager {

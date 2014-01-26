@@ -8,7 +8,7 @@
     <string>Connection fail - wrong id</string>
   </entry>
   <entry>
-    <string>borrow_askDate</string>
+    <string>borrow_askEndDate</string>
     <string>Please enter when you will return the material (use : dd/mm/yyyy)</string>
   </entry>
   <entry>
@@ -54,6 +54,10 @@
   <entry>
     <string>borrow_askCourseID_fail</string>
     <string>Error, please select a course from the list below :</string>
+  </entry>
+  <entry>
+    <string>borrow_askStartDate</string>
+    <string>Please enter when you will take the material (use : dd/mm/yyyy)</string>
   </entry>
   <entry>
     <string>gaveBack_askMaterialID</string>

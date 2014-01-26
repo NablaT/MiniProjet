@@ -57,15 +57,15 @@
         </entry>
         <entry>
           <string>name</string>
-          <string>Cink Five</string>
+          <string>Cink King</string>
         </entry>
         <entry>
           <string>state</string>
-          <model.State>UNUSED</model.State>
+          <model.State>GOOD</model.State>
         </entry>
         <entry>
           <string>screenType</string>
-          <model.material.ScreenType>RESISTIV</model.material.ScreenType>
+          <model.material.ScreenType>CAPACITIV</model.material.ScreenType>
         </entry>
         <entry>
           <string>brandName</string>
@@ -73,7 +73,7 @@
         </entry>
         <entry>
           <string>version</string>
-          <model.material.AndroidPhoneVersion>ECLAIR</model.material.AndroidPhoneVersion>
+          <model.material.AndroidPhoneVersion>JELLY_BEAN</model.material.AndroidPhoneVersion>
         </entry>
       </map>
       <map>

@@ -10,44 +10,46 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-abstract class User implements IUser  {
-	
+abstract class User implements IUser {
+
 	protected String name;
 	protected String id;
 	protected List<Integer> listCourse = new ArrayList<Integer>();
-	
+
 	protected long CONST_DURATION_OF_DAY = 1000l * 60 * 60 * 24;
-	
+
 	protected int maxNbLoans;
-	
-	public User() { }
-	
+
+	public User() {
+	}
+
 	/**
 	 * Constructor using the followin parameters :
+	 * 
 	 * @param id
 	 * @param name
 	 * @author benni
 	 */
 	protected User(String id, String name) {
-		if(id == null) {
+		if (id == null) {
 			throw new IllegalArgumentException("The id specified is null");
 		}
-		
-		if(name == null) {
+
+		if (name == null) {
 			throw new IllegalArgumentException("The name specified is null");
 		}
 		this.setID(id);
 		this.setName(name);
 	}
-	
+
 	protected User(Map<String, Object> description) {
 		this.restore(description);
 	}
-	
+
 	public List<Integer> getListCoursesId() {
 		return this.listCourse;
 	}
-	
+
 	public void setListCoursesId(List<Integer> coursesId) {
 		this.listCourse = coursesId;
 	}
@@ -56,39 +58,39 @@ abstract class User implements IUser  {
 	public String getID() {
 		return this.id;
 	}
-	
+
 	/**
-	 * Build a description stored in a Map. This description is based on 
+	 * Build a description stored in a Map. This description is based on
 	 * variable's values.
-	 * @author benni
 	 */
 	public Map<String, Object> getDescription() {
 		Map<String, Object> description = new HashMap<String, Object>();
-		
-		description.put("name",this.getName());
-		description.put("id",this.getID());
-		description.put("listCourse",this.listCourse);
-				
-		return description;		
+
+		description.put("name", this.getName());
+		description.put("id", this.getID());
+		description.put("listCourse", this.listCourse);
+
+		return description;
 	}
-	
+
 	@Override
 	public int getMaxNbLoans() {
 		return this.maxNbLoans;
 	}
-	
+
 	/**
 	 * Reset the variable's values from a description content.
+	 * 
 	 * @param description
-	 * @author benni
+	 *            equivalent at {@link User#getDescription()}
 	 */
 	@SuppressWarnings("unchecked")
 	public void restore(Map<String, Object> description) {
-		this.setName((String)description.get("name"));
-		this.setID((String)description.get("id"));
-		this.listCourse = (List<Integer>)description.get("listCourse");
+		this.setName((String) description.get("name"));
+		this.setID((String) description.get("id"));
+		this.listCourse = (List<Integer>) description.get("listCourse");
 	}
-	
+
 	@Override
 	public String toString() {
 		return getName();
@@ -98,7 +100,7 @@ abstract class User implements IUser  {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -111,8 +113,8 @@ abstract class User implements IUser  {
 	public boolean followCourse(Integer courseId) {
 		return this.listCourse.contains(courseId);
 	}
-	
-	public boolean equals(User user){
-		return (this.id.equals(user.getID())); 
+
+	public boolean equals(User user) {
+		return (this.id.equals(user.getID()));
 	}
 }

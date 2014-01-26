@@ -6,6 +6,11 @@ import java.util.Map;
 import model.State;
 import model.user.IUser;
 
+/**
+ * This class represents every android phone
+ * @author Benni Benjamin
+ * @since v.0.0.0
+ */
 class AndroidPhone extends Phone {
 
 	// Version of the current android device

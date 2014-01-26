@@ -6,6 +6,11 @@ import java.util.Map;
 import model.State;
 import model.user.IUser;
 
+/**
+ * This class represents every IOS phone
+ * @author Benni Benjamin
+ * @since v.0.0.0
+ */
 class IOSPhone extends Phone {
 
 	private IOSVersion version;

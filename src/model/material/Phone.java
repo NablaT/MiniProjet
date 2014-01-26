@@ -5,6 +5,11 @@ import java.util.Map;
 import model.State;
 import model.user.IUser;
 
+/**
+ * This class represents every phone
+ * @author Benni Benjamin
+ * @since v.0.0.0
+ */
 abstract class Phone extends ComputerDevice {
 
 	public Phone() {

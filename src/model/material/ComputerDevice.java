@@ -6,6 +6,11 @@ import java.util.Map;
 import model.State;
 import model.user.IUser;
 
+/**
+ * This class represents every Phone or tablet in the app
+ * @author Benni Benjamin
+ * @since v.0.0.0
+ */
 abstract class ComputerDevice extends Material {
 
 	private int screenSize;

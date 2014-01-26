@@ -41,8 +41,8 @@ public class Model {
 		this.cm.load();
 
 		this.lm = new LoanManager();
-		// LoanGenerator.storeLoansDescription(lm, um);
-		this.lm.load();
+		LoanGenerator.storeLoansDescription(lm, um);
+		//this.lm.load();
 		System.out.println(PieceOfDisplay.stockInitial);
 		System.out.println(sm.displayStock());
 		System.out.println(PieceOfDisplay.someEquals);
@@ -193,6 +193,7 @@ public class Model {
 	}
 
 	public boolean checkIfUserCanBorrowQuantity(String materialID, int quantity) {
+		this.um.getCurrentSessionUser(); 
 		int quantityMax = this.sm.getMaterial(materialID).getCopyLimitation(
 				this.um.getCurrentSessionUser().getClass());
 
@@ -276,5 +277,30 @@ public class Model {
 		startStates.add(this.sm.getMaterial(materialID).getState());
 
 		currentLoan.put("startState", startStates);
+	}
+
+	// TODO DELETE THIS TOKENS AFTER TESTS
+	public UserManager getUserManager(){
+		return this.um;
+	}
+
+	// TODO DELETE THIS TOKENS AFTER TESTS
+	public StockManager getStockManager(){
+		return this.sm;
+	}
+
+	// TODO DELETE THIS TOKENS AFTER TESTS
+	public LoanManager getLoanManager(){
+		return this.lm;
+	}
+
+	// TODO DELETE THIS TOKENS AFTER TESTS
+	public void setCurrentLoan(Map<String, Object>loan){
+		this.currentLoan=loan;
+	}
+	
+	// TODO DELETE THIS TOKENS AFTER TESTS
+	public Map<String, Object> getCurrentLoan(){
+		return this.currentLoan; 
 	}
 }

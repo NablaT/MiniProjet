@@ -144,6 +144,10 @@ public class UserManager implements Manager {
 		}
 	}
 	
+	public  Class<? extends IUser> getCurrentSessionType(){
+		return this.currentSessionType; 
+	}
+	
 	public IUser getCurrentSessionUser() {
 		return this.currentSession;
 	}
@@ -171,6 +175,14 @@ public class UserManager implements Manager {
 		return findUser(potentialID) != null;
 	}
 
+	/**
+	 * Method used in JUnit test
+	 * @param user
+	 */
+	public void setCurrentSessionReplace(IUser user){
+		this.currentSession=user; 
+	}
+	
 	/**
 	 * Method used to find a user in listOfUserAccount, returns a Borrower.
 	 * 

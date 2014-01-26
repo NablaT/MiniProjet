@@ -31,6 +31,10 @@ public class Teacher extends User {
 		this.maxNbLoans = 10;
 	}
 	
+	public void setMaxOfLoan(int number){
+		this.maxNbLoans=number; 
+	}
+	
 	@Override
 	public String toString() {
 		return "\t[#" + getID() + "] [" + this.getClass().getSimpleName() + "]\t" + super.toString();

@@ -27,6 +27,7 @@ public class Loan {
 	private boolean gaveBack;
 	private List<State> startState;
 	private List<State> endState;
+	private static String id;
 
 	public Loan() {
 	}

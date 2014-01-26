@@ -490,7 +490,7 @@ public class LoanManager implements Manager {
 
 		description = (Map<String, Object>) ConfigXML.load(KEY_LOAN_FILE,
 				KEY_LOAN_VERSION);
-
+		
 		this.restore(description);
 	}
 

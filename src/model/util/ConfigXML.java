@@ -194,7 +194,7 @@ public abstract class ConfigXML {
         // Enregistrer le XML
         //
         Object objet = xstream.fromXML(lecteur);
-        
+
         // Fermer le flux
         //
         try {

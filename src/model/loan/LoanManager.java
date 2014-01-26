@@ -1,6 +1,7 @@
 package model.loan;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import java.util.Map;
 import model.Manager;
 import model.Model;
 import model.material.Material;
-import model.material.StockManager;
 import model.user.IUser;
 import model.util.ConfigXML;
 
@@ -16,11 +16,10 @@ import model.util.ConfigXML;
  * This class will provides services to manage loans.
  */
 public class LoanManager implements Manager {
-	
+
 	public static final String KEY_LOAN_FILE = "loans";
 	public static final String KEY_LOAN_VERSION = "0.0.0";
-	
-	
+
 	/**
 	 * This list represents all loans unreturned to the school. It contains past
 	 * loans unreturned, current loans or future loans.
@@ -41,8 +40,18 @@ public class LoanManager implements Manager {
 		this.model = m;
 	}
 
-	
-	
+	public int getNbOfUnreturnedLoansFor(String userID) {
+		int result = 0;
+
+		for (Loan l : this.unreturnedLoans) {
+			if (l.getUser().getID().equals(userID)) {
+				result++;
+			}
+		}
+
+		return result;
+	}
+
 	/**
 	 * This is the first step for a loan. This method returns true if the
 	 * reservation succeed. Else false. It calls two methods: isAvailable and
@@ -69,7 +78,7 @@ public class LoanManager implements Manager {
 	 * @param loan
 	 * @return
 	 */
-	public boolean askForALoan(Loan loan) {
+	private boolean askForALoan(Loan loan) {
 		if (loan.getUser().getClass().getName().equals("Teacher")) {
 			return askForATeacher(loan);
 		} else if (loan.getUser().getClass().getName().equals("Student")) {
@@ -87,7 +96,7 @@ public class LoanManager implements Manager {
 	 * @param loan
 	 * @return
 	 */
-	public boolean askForATeacher(Loan loan) {
+	private boolean askForATeacher(Loan loan) {
 		return (this.checkCourses(loan) && this.notLate(loan) && canBorrow(loan));
 	}
 
@@ -100,7 +109,7 @@ public class LoanManager implements Manager {
 	 * @return
 	 */
 
-	public boolean canBorrow(Loan loan) {
+	private boolean canBorrow(Loan loan) {
 		Map<String, Integer> oldMaterial = getAllMaterialsLoan(loan.getUser());
 		Map<String, Integer> newMaterial = getAllMaterialsHeWants(loan);
 
@@ -144,30 +153,30 @@ public class LoanManager implements Manager {
 	 * @return
 	 */
 
-	public HashMap<String, Integer> getAllMaterialsLoan(IUser user) {
+	private HashMap<String, Integer> getAllMaterialsLoan(IUser user) {
 		HashMap<String, Integer> hm = new HashMap<String, Integer>();
-		
-		//	Run through the unreturned loans
-		for(Loan currentUnreturnedLoan : this.unreturnedLoans) {
-			
-			//	Check if the current loan concerned the specified user
-			if(currentUnreturnedLoan.getUser().equals(user)) {
-				
-				//	Run through the material contained in the current loan
-				for(String materialID : currentUnreturnedLoan.getListOfMaterials()) {
-					
+
+		// Run through the unreturned loans
+		for (Loan currentUnreturnedLoan : this.unreturnedLoans) {
+
+			// Check if the current loan concerned the specified user
+			if (currentUnreturnedLoan.getUser().equals(user)) {
+
+				// Run through the material contained in the current loan
+				for (String materialID : currentUnreturnedLoan
+						.getListOfMaterials()) {
+
 					String key = this.model.getProductDescription(materialID);
-					//	Update the hashMap content
-					if(hm.containsKey(key)) {
-						hm.put(key,  hm.get(key) + 1);
-					}
-					else {
+					// Update the hashMap content
+					if (hm.containsKey(key)) {
+						hm.put(key, hm.get(key) + 1);
+					} else {
 						hm.put(key, 1);
 					}
 				}
 			}
 		}
-		
+
 		return hm;
 	}
 
@@ -179,48 +188,45 @@ public class LoanManager implements Manager {
 	 * @return
 	 */
 
-	public HashMap<String, Integer> getHMOfMaterial(
-			List<String> list) {
-		
+	private HashMap<String, Integer> getHMOfMaterial(List<String> list) {
+
 		HashMap<String, Integer> hm = new HashMap<String, Integer>();
-		
-		for(String materialID : list) {
+
+		for (String materialID : list) {
 			String key = this.model.getNameOf(materialID);
-			if(hm.containsKey(key)) {
+			if (hm.containsKey(key)) {
 				hm.put(key, hm.get(key) + 1);
-			}
-			else {
+			} else {
 				hm.put(key, 1);
 			}
 		}
-		
-//		for (int i = 0; i < list.size(); i++) {
-//			// Si on a deja mis le materiel dans l'hashmap alors on incremente
-//			// juste le nombre
-//			if (hm.get(list.get(i).getName()) != null) {
-//				hm.put(list.get(i).getName(), hm.get(list.get(i).getName()) + 1);
-//			}
-//			// Sinon on le rajoute a l'hashmap.
-//			else {
-//				hm.put(list.get(i).getName(), 1);
-//			}
-//		}
-		
+
+		// for (int i = 0; i < list.size(); i++) {
+		// // Si on a deja mis le materiel dans l'hashmap alors on incremente
+		// // juste le nombre
+		// if (hm.get(list.get(i).getName()) != null) {
+		// hm.put(list.get(i).getName(), hm.get(list.get(i).getName()) + 1);
+		// }
+		// // Sinon on le rajoute a l'hashmap.
+		// else {
+		// hm.put(list.get(i).getName(), 1);
+		// }
+		// }
+
 		return hm;
 
 	}
 
-	public HashMap<String, Integer> getAllMaterialsHeWants(Loan loan) {
+	private HashMap<String, Integer> getAllMaterialsHeWants(Loan loan) {
 		HashMap<String, Integer> hm = new HashMap<String, Integer>();
-		
-		for(String materialID : loan.getListOfMaterials()) {
-			
+
+		for (String materialID : loan.getListOfMaterials()) {
+
 			String key = this.model.getProductDescription(materialID);
-			
-			if(hm.containsKey(key)) {
+
+			if (hm.containsKey(key)) {
 				hm.put(key, hm.get(key) + 1);
-			}
-			else {
+			} else {
 				hm.put(key, 1);
 			}
 		}
@@ -236,7 +242,7 @@ public class LoanManager implements Manager {
 	 * @param user
 	 * @return
 	 */
-	public boolean notLate(Loan loan) {
+	private boolean notLate(Loan loan) {
 		for (int i = 0; i < this.unreturnedLoans.size(); i++) {
 			if (this.unreturnedLoans.get(i).getUser().equals(loan.getUser())
 					&& this.unreturnedLoans.get(i).isOverdue(loan.getAskDate())) {
@@ -253,39 +259,41 @@ public class LoanManager implements Manager {
 	 * @param loan
 	 * @return
 	 */
-	public boolean checkCourses(Loan loan) {
-		//		int cpt = 0;
+	private boolean checkCourses(Loan loan) {
+		// int cpt = 0;
 		// Pour chaque materiel que l'emprunteur veut, on verifie qu'il se
 		// trouve bien dans la liste des
 		// materiels disponibles pour ce cours là.
-			
-		//	Run through the material contained in the loan
+
+		// Run through the material contained in the loan
 		for (String materialID : loan.getListOfMaterials()) {
+
 			
-			//	Check if the current material is contained in the list
-			//	of allowed product in the loan'course
-			if(!loan.getCourse().getAllowedProducts().contains(materialID)) {
+					// Check if the current material is contained in the list
+			// of allowed product in the loan'course
+			if (!this.model.getAllowedProductsForSpecifiedCourse(loan.getCourse()).contains(materialID)) {
 				return false;
 			}
 		}
 
-//		for (int i = 0; i < loan.getListOfMaterials().size(); i++) {
-//			for (int j = 0; j < loan.getCourse().getAllowedProducts().size(); i++) {
-//				if (loan.getListOfMaterials().get(i).getId()
-//						.equals(loan.getCourse().getAllowedProducts().get(j))) {
-//					cpt++;
-//					break;
-//				}
-//			}
-//		}
-//		if (cpt == loan.getListOfMaterials().size()) {
-//			return true;
-//		}
-		
+		// for (int i = 0; i < loan.getListOfMaterials().size(); i++) {
+		// for (int j = 0; j < loan.getCourse().getAllowedProducts().size();
+		// i++) {
+		// if (loan.getListOfMaterials().get(i).getId()
+		// .equals(loan.getCourse().getAllowedProducts().get(j))) {
+		// cpt++;
+		// break;
+		// }
+		// }
+		// }
+		// if (cpt == loan.getListOfMaterials().size()) {
+		// return true;
+		// }
+
 		return false;
 	}
 
-	public ArrayList<String> returnTypeOfMaterial(ArrayList<Material> list) {
+	private ArrayList<String> returnTypeOfMaterial(ArrayList<Material> list) {
 		ArrayList<String> result = new ArrayList<String>();
 		for (int i = 0; i < list.size(); i++) {
 
@@ -299,7 +307,7 @@ public class LoanManager implements Manager {
 	 * @param loan
 	 * @return
 	 */
-	public boolean askForAStudent(Loan loan) {
+	private boolean askForAStudent(Loan loan) {
 		for (int i = 0; i < this.unreturnedLoans.size(); i++) {
 			if (this.unreturnedLoans.get(i).getUser().equals(loan.getUser())) {
 				return true;
@@ -322,27 +330,13 @@ public class LoanManager implements Manager {
 	 * @param loan
 	 * @return
 	 */
-	public boolean isAvailable(Loan loan) {
-		ArrayList<Loan> loansNotLoanable= this.saveBadLoan(loan);
-		//ArrayList<String> idNotLoanable=this.loanToId(loansNotLoanable);
-		StockManager sm= this.model.getStockManager(); 
-		ArrayList<Material> list= (ArrayList<Material>) sm.stockToList();
-		for(int i=0;i<list.size();i++){
-			
+	private boolean isAvailable(Loan loan) {
+
+		for (int i = 0; i < this.unreturnedLoans.size(); i++) {
+
 		}
-		
 		return true;
 	}
-/*
-	private ArrayList<String> loanToId(ArrayList<Loan> loansNotLoanable) {
-		ArrayList<String> result= new ArrayList<String>(); 
-		for(int i=0; i<loansNotLoanable.size();i++){
-			for(int i=0; i<loansNotLoanable.get(i).get)
-		}
-		return result;
-	}
-
-*/
 
 	/**
 	 * This method returns the material list which can't be loaning.
@@ -380,7 +374,7 @@ public class LoanManager implements Manager {
 	 * @return
 	 */
 
-	public boolean sameDate(Loan loan, Loan loan2) {
+	private boolean sameDate(Loan loan, Loan loan2) {
 		return (!(loan.getEndDate().before(loan2.getStartDate())) || (loan2
 				.getStartDate().before(loan.getStartDate()) && loan2
 				.getEndDate().before(loan.getStartDate())));
@@ -409,7 +403,8 @@ public class LoanManager implements Manager {
 
 	public Loan returnLoan(ArrayList<Material> material) {
 		for (int i = 0; i < this.unreturnedLoans.size(); i++) {
-			if (this.unreturnedLoans.get(i).getListOfMaterials().equals(material)) {
+			if (this.unreturnedLoans.get(i).getListOfMaterials()
+					.equals(material)) {
 				return this.unreturnedLoans.get(i);
 			}
 		}
@@ -447,35 +442,55 @@ public class LoanManager implements Manager {
 		return this.oldLoans;
 	}
 
-	//TODO DELETE THIS TOKENS AFTER TESTS
+	// TODO DELETE THIS TOKENS AFTER TESTS
 	public void addLoan(Loan l) {
 		this.unreturnedLoans.add(l);
 	}
-	
+
+	public boolean isCurrentlyBorrowed(String materialID, Calendar startDate,
+			Calendar endDate) {
+
+		for (Loan l : this.unreturnedLoans) {
+			if ((l.getStartDate().after(startDate) 
+					&& l.getStartDate().before(endDate))
+					|| (l.getEndDate().after(startDate)
+					&& l.getEndDate().before(endDate))
+					&& l.getListOfMaterials().contains(materialID)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	@SuppressWarnings("unchecked")
 	public void restore(Map<String, Object> description) {
-		
-		List<Map<String, Object>> unreturnedLoanDescription = (List<Map<String, Object>>)description.get("unreturnedLoans");
-		List<Map<String, Object>> oldLoansDescription = (List<Map<String, Object>>)description.get("oldLoans");
-		
-		for(Map<String, Object> currentUnreturnedLoanDescription : unreturnedLoanDescription) {
-			Loan currentUnreturnedLoan = new Loan(currentUnreturnedLoanDescription);
+
+		List<Map<String, Object>> unreturnedLoanDescription = (List<Map<String, Object>>) description
+				.get("unreturnedLoans");
+		List<Map<String, Object>> oldLoansDescription = (List<Map<String, Object>>) description
+				.get("oldLoans");
+
+		for (Map<String, Object> currentUnreturnedLoanDescription : unreturnedLoanDescription) {
+			Loan currentUnreturnedLoan = new Loan(
+					currentUnreturnedLoanDescription);
 			this.unreturnedLoans.add(currentUnreturnedLoan);
 		}
-		
-		for(Map<String, Object> currentOldLoanDescription : oldLoansDescription) {
+
+		for (Map<String, Object> currentOldLoanDescription : oldLoansDescription) {
 			Loan currentOldLoan = new Loan(currentOldLoanDescription);
 			this.oldLoans.add(currentOldLoan);
 		}
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public void load() {
 		Map<String, Object> description = new HashMap<String, Object>();
-		
-		description = (Map<String, Object>) ConfigXML.load(KEY_LOAN_FILE, KEY_LOAN_VERSION);
-		
+
+		description = (Map<String, Object>) ConfigXML.load(KEY_LOAN_FILE,
+				KEY_LOAN_VERSION);
+
 		this.restore(description);
 	}
 
@@ -484,28 +499,29 @@ public class LoanManager implements Manager {
 		Map<String, Object> description = new HashMap<String, Object>();
 
 		List<Map<String, Object>> unreturnedLoanDescription = new ArrayList<Map<String, Object>>();
-		for(Loan currentUnreturnedLoan : unreturnedLoans) {
-			unreturnedLoanDescription.add(currentUnreturnedLoan.getDescription());
+		for (Loan currentUnreturnedLoan : unreturnedLoans) {
+			unreturnedLoanDescription.add(currentUnreturnedLoan
+					.getDescription());
 		}
-		
+
 		List<Map<String, Object>> oldLoans = new ArrayList<Map<String, Object>>();
-		for(Loan currentOldLoan : this.oldLoans) {
+		for (Loan currentOldLoan : this.oldLoans) {
 			unreturnedLoanDescription.add(currentOldLoan.getDescription());
 		}
-		
+
 		description.put("unreturnedLoans", unreturnedLoanDescription);
 		description.put("oldLoans", oldLoans);
-		
+
 		ConfigXML.store(description, KEY_LOAN_FILE, KEY_LOAN_VERSION);
 	}
-	
+
 	public String displayUnreturnedLoans() {
 		String result = "";
-		
-		for(Loan l : this.unreturnedLoans) {
+
+		for (Loan l : this.unreturnedLoans) {
 			result += l.toString();
 		}
-		
+
 		return result;
 	}
 }

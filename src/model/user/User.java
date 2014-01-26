@@ -18,6 +18,8 @@ abstract class User implements IUser  {
 	
 	protected long CONST_DURATION_OF_DAY = 1000l * 60 * 60 * 24;
 	
+	protected int maxNbLoans;
+	
 	public User() { }
 	
 	/**
@@ -68,6 +70,11 @@ abstract class User implements IUser  {
 		description.put("listCourse",this.listCourse);
 				
 		return description;		
+	}
+	
+	@Override
+	public int getMaxNbLoans() {
+		return this.maxNbLoans;
 	}
 	
 	/**

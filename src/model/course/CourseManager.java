@@ -87,7 +87,7 @@ public class CourseManager implements Manager {
 	public Map<String, Object> getCourseDescription(int courseId) {
 		Map<String, Object> courseDescription = new HashMap<String, Object>();
 		
-		courseDescription = findCourse(courseId).getDescription();
+		courseDescription = getCourse(courseId).getDescription();
 		
 		return courseDescription;
 	}
@@ -97,7 +97,7 @@ public class CourseManager implements Manager {
 	 * @param courseId
 	 * @return
 	 */
-	public Course findCourse(int courseId) {
+	public Course getCourse(int courseId) {
 		for(Course c : listOfCourses) {
 			if(c.getID() == courseId) { return c;}
 		}

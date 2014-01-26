@@ -158,6 +158,28 @@ public class StockManager implements Manager {
 		return result;
 	}
 	
+	public int getNumberOf(String brandNameAndName) {
+		int res = 0;
+		
+		for(Material m : this.stockToList()) {
+			if(m.getProductDescription().equals(brandNameAndName)) {
+				res ++;
+			}
+		}
+	
+		return res;
+	}
+	
+	public List<String> getMaterialIDs() {
+		List<String> materialIDs = new ArrayList<String>();
+		
+		for(Material m : this.stockToList()) {
+			materialIDs.add(m.getId());
+		}
+		
+		return materialIDs;
+	}
+	
 	public String displayStock() {
 		String result = "";
 

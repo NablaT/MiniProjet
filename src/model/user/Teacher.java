@@ -11,6 +11,7 @@ public class Teacher extends User {
 
 	public Teacher() {
 		super();
+		this.maxNbLoans = 10;
 	}
 	
 	/**
@@ -22,10 +23,12 @@ public class Teacher extends User {
 	 */
 	public Teacher(String id, String name) {
 		super(id, name);
+		this.maxNbLoans = 10;
 	}
 	
 	public Teacher(Map<String, Object> description) {
 		super(description);
+		this.maxNbLoans = 10;
 	}
 	
 	@Override

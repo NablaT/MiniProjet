@@ -16,4 +16,5 @@ public interface IUser {
 	boolean followCourse(Integer courseId);
 	String getID();
 	String getName();
+	int getMaxNbLoans();
 }

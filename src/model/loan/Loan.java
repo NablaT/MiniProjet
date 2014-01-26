@@ -19,7 +19,7 @@ import model.user.UserManager;
  */
 public class Loan {
 	private List<String> material;
-	private Course course;
+	private int courseId;
 	private Calendar startDate;
 	private Calendar endDate;
 	private Calendar askDate;
@@ -31,11 +31,11 @@ public class Loan {
 	public Loan() {
 	}
 
-	public Loan(List<String> material, Course course, Calendar startDate,
+	public Loan(List<String> material, int courseId, Calendar startDate,
 			Calendar endDate, Calendar askDate, IUser user,
 			List<State> startState) {
 		this.material = material;
-		this.course = course;
+		this.courseId = courseId;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.askDate = askDate;
@@ -53,8 +53,8 @@ public class Loan {
 		return this.material;
 	}
 
-	public Course getCourse() {
-		return this.course;
+	public int getCourse() {
+		return this.courseId;
 	}
 
 	public Calendar getStartDate() {
@@ -77,8 +77,8 @@ public class Loan {
 		return this.gaveBack;
 	}
 
-	public void setCourse(Course c) {
-		this.course = c;
+	public void setCourse(int c) {
+		this.courseId = c;
 	}
 
 	public void setGaveBack(boolean gaveBack) {
@@ -188,8 +188,8 @@ public class Loan {
 				&& (this.sameDate(this.askDate, loan.getAskDate()))
 				&& this.user.equals(loan.getUser())
 				&& (this.gaveBack == loan.getGaveBack())
-				&& this.startState.equals(loan.getStartState())
-				&& this.endState.equals(loan.getEndState()));
+				&& this.startState.equals(loan.getStartState()) && this.endState
+					.equals(loan.getEndState()));
 	}
 
 	/**
@@ -207,17 +207,17 @@ public class Loan {
 
 	public Map<String, Object> getDescription() {
 		Map<String, Object> description = new HashMap<String, Object>();
-		
+
 		description.put("material", material);
-		description.put("course", course.getDescription());
+		description.put("courseId", courseId);
 		description.put("startDate", startDate);
 		description.put("endDate", endDate);
 		description.put("askDate", askDate);
-		
+
 		Map<String, Object> userDescription = new HashMap<String, Object>();
 		userDescription = user.getDescription();
 		userDescription.put("class", user.getClass());
-		
+
 		description.put("user", userDescription);
 		description.put("gaveBack", gaveBack);
 		description.put("startState", startState);
@@ -225,10 +225,12 @@ public class Loan {
 
 		return description;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void restore(Map<String, Object> description) {
 
+		System.out.println(description);
+		
 		Calendar startDate = (Calendar) description.get("startDate");
 		Calendar endDate = (Calendar) description.get("endDate");
 		Calendar askDate = (Calendar) description.get("askDate");
@@ -238,18 +240,20 @@ public class Loan {
 
 		Map<String, Object> userDescription = (Map<String, Object>) description
 				.get("user");
-		
 		IUser user = new UserManager().restoreUser(
-				(Class<? extends IUser>) userDescription.get("class"), userDescription);
-		
+				(Class<? extends IUser>) userDescription.get("class"),
+				userDescription);
+
 		List<String> material = (List<String>) description.get("material");
-		Course course = new Course((Map<String, Object>)description.get("course"));
-		
+		int course = (Integer) description.get("courseId");
+
 		this.setStartDate(startDate);
 		this.setEndDate(endDate);
 		this.setAskDate(askDate);
 		this.setStartDate(startState);
-		this.setEndState(endState);
+		if (endState != null) {
+			this.setEndState(endState);
+		}
 		this.setGaveBack(gaveBack);
 		this.setUser(user);
 		this.setMaterial(material);
@@ -259,24 +263,23 @@ public class Loan {
 	@Override
 	public String toString() {
 		String result = "";
-			
-		DateFormat ndf = new SimpleDateFormat("dd/MM/yyyy HH:mm");  
-        String startDateStr = ndf.format(startDate.getTime());
-        String endDateStr = ndf.format(endDate.getTime());
-			
-		
-		result += "[" + user.getID() + "]\t" + "Course #"+ course.getID() + "\t" + startDateStr + " - " + endDateStr ;
-		
-		result+= (gaveBack)? " - gaveBack" : " - unreturned";
-	
+
+		DateFormat ndf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		String startDateStr = ndf.format(startDate.getTime());
+		String endDateStr = ndf.format(endDate.getTime());
+
+		result += "[" + user.getID() + "]\t" + "Course #" + courseId + "\t"
+				+ startDateStr + " - " + endDateStr;
+
+		result += (gaveBack) ? " - gaveBack" : " - unreturned";
+
 		result += "\n";
 
-		
-		for(int i = 0 ; i < this.material.size(); i ++) {
-			result += "\t[" + material.get(i) + "]\t -\t";
+		for (int i = 0; i < this.material.size(); i++) {
+			result += "\t[" + material.get(i) + "]\t - ";
 			result += startState.get(i) + "\n";
 		}
-		
+
 		return result;
 	}
 }

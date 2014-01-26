@@ -22,13 +22,17 @@ public class UserManager implements Manager {
 	private static final String PATH_ACCOUNT_FILE = "accounts";
 	private static final String VERSION_ACCOUNT_FILE = "0.0.0";
 
+	private IUser currentSession;
+	private Class<? extends IUser> currentSessionType;
+
 	/**
 	 * This default constructor calls the buildListOfBorrowers() with the Map
 	 * loaded from the xml file as a parameter.
 	 * 
 	 * @author benni
 	 */
-	public UserManager() { }
+	public UserManager() {
+	}
 
 	/**
 	 * This method calls the building method for both of the two lists :
@@ -37,7 +41,8 @@ public class UserManager implements Manager {
 	 * @param usersDescription
 	 * @author boinaud
 	 */
-	public void restore(Map<Class<? extends IUser>, List<Map<String, Object>>> usersAccountsDescription) {
+	public void restore(
+			Map<Class<? extends IUser>, List<Map<String, Object>>> usersAccountsDescription) {
 
 		if (usersAccountsDescription == null) {
 
@@ -46,15 +51,17 @@ public class UserManager implements Manager {
 		if (usersAccountsDescription.isEmpty()) {
 
 		}
-		
-		for(Class<?extends IUser> key : usersAccountsDescription.keySet()) {
-			for(Map<String, Object> currentAccountDescription : usersAccountsDescription.get(key)) {
+
+		for (Class<? extends IUser> key : usersAccountsDescription.keySet()) {
+			for (Map<String, Object> currentAccountDescription : usersAccountsDescription
+					.get(key)) {
 				this.addUser(restoreUser(key, currentAccountDescription));
 			}
 		}
 	}
-	
-	public User restoreUser(Class<?extends IUser> classe, Map<String, Object> description) {
+
+	public User restoreUser(Class<? extends IUser> classe,
+			Map<String, Object> description) {
 
 		Constructor<?> constructeur = null;
 		try {
@@ -65,69 +72,91 @@ public class UserManager implements Manager {
 		User instance = null;
 
 		try {
-			instance = (User)constructeur.newInstance(new Object[] {});
+			instance = (User) constructeur.newInstance(new Object[] {});
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		
+
 		instance.restore(description);
 		return instance;
 	}
 
+	// /**
+	// * This method will build a list of teachers used by our application.
+	// *
+	// * @author benni
+	// * @param teachersDescription
+	// */
+	// @SuppressWarnings("unchecked")
+	// private void buildListOfTeachers(
+	// List<Map<String, Object>> teachersDescription) {
+	//
+	// List<IUser> listOfTeachers = new ArrayList<IUser>();
+	//
+	// for (Map<String, Object> userDescription : teachersDescription) {
+	//
+	// String borrowerName = (String) userDescription.get("name");
+	// String borrowerID = (String) userDescription.get("id");
+	//
+	// IUser currentBorrower = new Teacher(borrowerID, borrowerName);
+	// currentBorrower.setListCoursesId((List<Integer>) userDescription
+	// .get("listCourse"));
+	// listOfTeachers.add(currentBorrower);
+	// }
+	// listOfUsersAccounts.put(Teacher.class, listOfTeachers);
+	// }
+	//
+	// /**
+	// * This method will build a list of students used by our application.
+	// *
+	// * @author benni
+	// * @param teachersDescription
+	// */
+	// @SuppressWarnings("unchecked")
+	// private void buildListOfStudents(
+	// List<Map<String, Object>> studentsDescription) {
+	//
+	// List<IUser> listOfStudents = new ArrayList<IUser>();
+	//
+	// for (Map<String, Object> userDescription : studentsDescription) {
+	//
+	// String borrowerName = (String) userDescription.get("name");
+	// String borrowerID = (String) userDescription.get("id");
+	//
+	// System.out.println(borrowerName + borrowerID);
+	//
+	// IUser currentBorrower = new Student(borrowerID, borrowerName);
+	// currentBorrower.setListCoursesId((List<Integer>) userDescription
+	// .get("listCourse"));
+	//
+	// listOfStudents.add(currentBorrower);
+	// }
+	// listOfUsersAccounts.put(Student.class, listOfStudents);
+	// }
 
-//	/**
-//	 * This method will build a list of teachers used by our application.
-//	 * 
-//	 * @author benni
-//	 * @param teachersDescription
-//	 */
-//	@SuppressWarnings("unchecked")
-//	private void buildListOfTeachers(
-//			List<Map<String, Object>> teachersDescription) {
-//
-//		List<IUser> listOfTeachers = new ArrayList<IUser>();
-//
-//		for (Map<String, Object> userDescription : teachersDescription) {
-//
-//			String borrowerName = (String) userDescription.get("name");
-//			String borrowerID = (String) userDescription.get("id");
-//
-//			IUser currentBorrower = new Teacher(borrowerID, borrowerName);
-//			currentBorrower.setListCoursesId((List<Integer>) userDescription
-//					.get("listCourse"));
-//			listOfTeachers.add(currentBorrower);
-//		}
-//		listOfUsersAccounts.put(Teacher.class, listOfTeachers);
-//	}
-//
-//	/**
-//	 * This method will build a list of students used by our application.
-//	 * 
-//	 * @author benni
-//	 * @param teachersDescription
-//	 */
-//	@SuppressWarnings("unchecked")
-//	private void buildListOfStudents(
-//			List<Map<String, Object>> studentsDescription) {
-//
-//		List<IUser> listOfStudents = new ArrayList<IUser>();
-//
-//		for (Map<String, Object> userDescription : studentsDescription) {
-//
-//			String borrowerName = (String) userDescription.get("name");
-//			String borrowerID = (String) userDescription.get("id");
-//
-//			System.out.println(borrowerName + borrowerID);
-//
-//			IUser currentBorrower = new Student(borrowerID, borrowerName);
-//			currentBorrower.setListCoursesId((List<Integer>) userDescription
-//					.get("listCourse"));
-//
-//			listOfStudents.add(currentBorrower);
-//		}
-//		listOfUsersAccounts.put(Student.class, listOfStudents);
-//	}
+	public void setCurrentSessionType(String fullName) {
+		try {
+			this.currentSessionType = (Class<? extends IUser>) Class
+					.forName(fullName);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public IUser getCurrentSessionUser() {
+		return this.currentSession;
+	}
+	
+	public boolean setCurrentSession(IUser u) {
+		if(!u.getClass().equals(currentSessionType)) {
+			return false;
+		}
+		
+		this.currentSession = u;
+		System.out.println("Current User : " + u);
+		return true;
+	}
 
 	public Map<Class<? extends User>, List<IUser>> getBorrowerList() {
 		return listOfUsersAccounts;
@@ -163,8 +192,8 @@ public class UserManager implements Manager {
 
 	public void addUser(User u) {
 		List<IUser> listUsers = new ArrayList<IUser>();
-		
-		if(this.listOfUsersAccounts.containsKey(u.getClass())) {
+
+		if (this.listOfUsersAccounts.containsKey(u.getClass())) {
 			listUsers = this.listOfUsersAccounts.get(u.getClass());
 		}
 
@@ -172,7 +201,7 @@ public class UserManager implements Manager {
 		this.listOfUsersAccounts.put(u.getClass(), listUsers);
 
 	}
-	
+
 	/**
 	 * This method will connect a user using its id (at least a potential one)
 	 * as a parameter. If you try to connect an unknown user, the method returns
@@ -197,18 +226,31 @@ public class UserManager implements Manager {
 		return null;
 
 	}
-	
+
 	public List<IUser> usersToList() {
 		List<IUser> result = new ArrayList<IUser>();
-		
-		for(List<IUser> currentList : this.listOfUsersAccounts.values()) {
-			for(IUser m : currentList) {
+
+		for (List<IUser> currentList : this.listOfUsersAccounts.values()) {
+			for (IUser m : currentList) {
 				result.add(m);
 			}
 		}
 		return result;
 	}
-	
+
+	public List<String> getUserTypes() {
+		List<String> userTypes = new ArrayList<String>();
+
+		for (Class<? extends IUser> c : this.listOfUsersAccounts.keySet()) {
+			userTypes.add(c.getSimpleName());
+		}
+
+		return userTypes;
+	}
+
+	public String getFullName(String lowerClass) {
+		return this.getClass().getPackage().getName() + "." + lowerClass;
+	}
 
 	public String toString() {
 		String res = "";
@@ -226,23 +268,21 @@ public class UserManager implements Manager {
 	@Override
 	@SuppressWarnings("unchecked")
 	public void load() {
-		Map<Class<? extends IUser>, List<Map<String, Object>>> usersAccountsDescription 
-		= new HashMap<Class<? extends IUser>, List<Map<String, Object>>>();
+		Map<Class<? extends IUser>, List<Map<String, Object>>> usersAccountsDescription = new HashMap<Class<? extends IUser>, List<Map<String, Object>>>();
 
-		usersAccountsDescription = (Map<Class<? extends IUser>, List<Map<String, Object>>>)
-				ConfigXML.load(PATH_ACCOUNT_FILE, VERSION_ACCOUNT_FILE);
-		
+		usersAccountsDescription = (Map<Class<? extends IUser>, List<Map<String, Object>>>) ConfigXML
+				.load(PATH_ACCOUNT_FILE, VERSION_ACCOUNT_FILE);
+
 		this.restore(usersAccountsDescription);
 	}
 
 	@Override
 	public void store() {
-		Map<Class<? extends IUser>, List<Map<String, Object>>> description 
-		= new HashMap<Class<? extends IUser>, List<Map<String, Object>>>();
+		Map<Class<? extends IUser>, List<Map<String, Object>>> description = new HashMap<Class<? extends IUser>, List<Map<String, Object>>>();
 
 		for (IUser m : this.usersToList()) {
 			Class<? extends IUser> c = m.getClass();
-			
+
 			if (description.containsKey(c)) {
 				description.get(c).add(m.getDescription());
 			} else {
@@ -251,10 +291,10 @@ public class UserManager implements Manager {
 				description.put(c, newList);
 			}
 		}
-		
+
 		ConfigXML.store(description, PATH_ACCOUNT_FILE, VERSION_ACCOUNT_FILE);
 	}
-	
+
 	public String displayUsersAccounts() {
 		String result = "";
 

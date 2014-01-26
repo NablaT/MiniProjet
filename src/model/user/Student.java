@@ -13,6 +13,7 @@ public class Student extends User implements IUser {
 
 	public Student() {
 		super();
+		this.maxNbLoans = 1;
 	}
 	
 	/**
@@ -24,10 +25,12 @@ public class Student extends User implements IUser {
 	 */
 	public Student(String id, String name) {
 		super(id, name);
+		this.maxNbLoans = 1;
 	}
 	
 	public Student(Map<String, Object> description) {
 		super(description);
+		this.maxNbLoans = 1;
 	}
 	
 	

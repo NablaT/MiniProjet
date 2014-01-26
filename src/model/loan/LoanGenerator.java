@@ -46,8 +46,6 @@ public abstract class LoanGenerator {
 		
 		
 		descriptionLoan1.put("user", userDescription);	
-		descriptionLoan1.put("material", c.clone());
-		descriptionLoan1.put("course", c.clone());
 
 		List<String> borrowedMaterialIDs = new ArrayList<String>();
 		borrowedMaterialIDs.add("CW22");
@@ -55,25 +53,7 @@ public abstract class LoanGenerator {
 		
 		descriptionLoan1.put("material", borrowedMaterialIDs);
 		
-		Map<String, Object> course1 = new HashMap<String, Object>();
-		course1.put("name", "SSII");
-		course1.put("id", 1);
-		
-		Calendar c11 = Calendar.getInstance();
-		c11.set(2013, 9, 20);
-		
-		Calendar c12 = Calendar.getInstance();
-		c12.set(2013, 9, 20);
-
-		course1.put("endDate", c11);
-		course1.put("startDate",c12 );
-		
-		List<String> listOfAllowedProductsForCourse1 = new ArrayList<String>();
-		listOfAllowedProductsForCourse1.add("CW22");
-		listOfAllowedProductsForCourse1.add("CW99");
-		course1.put("productsAllowed", listOfAllowedProductsForCourse1);
-		
-		descriptionLoan1.put("course", course1);
+		descriptionLoan1.put("courseId", 1);
 		
 		Loan l = new Loan(descriptionLoan1);
 		lm.addLoan(l);
